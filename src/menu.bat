@@ -1,3 +1,3 @@
 @echo off
-call html360 %*
+node "%~dp0/index.js" %*
 pause

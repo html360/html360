@@ -1,6 +1,6 @@
 {
   "name": "html360",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "CLI tool to create standalone 360° panoramas in a single HTML file.",
   "keywords": [
     "panorama",
@@ -21,8 +21,8 @@
   },
   "license": "MIT",
   "author": "d_hand",
-  "type": "commonjs",
-  "main": ".dist/index.js",
+  "type": "module",
+  "main": "dist/index.js",
   "bin": {
     "html360": "dist/index.js"
   },
@@ -32,15 +32,23 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "node ./scripts/build.js"
+    "build": "tsc && node ./scripts/build.js"
   },
   "dependencies": {
     "ansi-colors": "4.1.3",
     "cli-progress": "3.12.0",
     "commander": "14.0.3",
     "pannellum": "2.5.7",
-    "png-to-ico": "2.1.8",
     "sharp": "0.34.5",
     "windows-shortcuts": "0.1.6"
+  },
+  "devDependencies": {
+    "@types/cli-progress": "3.11.6",
+    "esbuild": "0.27.3",
+    "png-to-ico": "3.0.1",
+    "typescript": "5.9.3"
+  },
+  "engines": {
+    "node": ">=20.10.0"
   }
 }

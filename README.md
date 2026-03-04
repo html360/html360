@@ -12,14 +12,19 @@ Perfect for sharing with friends via messengers or viewing offline.
 - **Mobile Ready**: Built-in support for touch gestures and gyroscope.
 - **Powered by**: Uses the lightweight [Pannellum](https://pannellum.org) viewer.
 
+## 🖼️ Live Demo
+Experience the result of an 8K panorama processed by html360:
+[View Demo](https://d-hand.github.io/Html360/LiveDemo.html)
+
+
 ## 🚀 Quick Start
-Run it without installation using `npx`:
-```
-npx html360 panorama_1.jpg panorama_2.jpg
-```
-Or install it globally:
+Install it globally:
 ```
 npm install -g html360
+```
+Or run it without installation using `npx`:
+```
+npx html360 panorama_1.jpg panorama_2.jpg
 ```
 
 ## 📂 Why use this?
@@ -50,6 +55,22 @@ html360 uninstall-menu
 3. Right-click -> Send to -> html360.
 4. Done! A standalone .html file will appear next to each image instantly.
 
+## 📊 Optimization Stats
+How `html360` saves space while keeping **8K quality** (8192×4096):
+
+| Feature | Raw JPEG (Original) | html360 Output (WebP) | Improvement |
+| :--- | :--- | :--- | :--- |
+| **File Size** | ~12.0 MB | **~2.4 MB** | **-80% Smaller** |
+| **Portability** | Image only | **Single HTML file** | JS/CSS included |
+| **Accessibility**| Requires viewer | **Any Browser** | Instant 360° |
+
+## 💻 Requirements
+
+To use **html360**, you need to have the following installed:
+
+- **[Node.js](https://nodejs.org)**: `v20.10.0` or higher (LTS recommended)
+- **Windows** (optional): Only required for the `install-menu` feature
+
 ## 🤝 Credits
 This project was developed with the creative and technical assistance of **Google Gemini**. 
-Together, the panoramas were optimized, the CLI architecture was built, and the Windows integration was polished to make **html360** a reality. ✨
+Together, the panoramas were optimized, the CLI architecture was built, and the Windows integration was polished to make **html360** a reality.
