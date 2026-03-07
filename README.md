@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="src/html360.svg" width="128" alt="html360 logo">
+  <img src="src/view/assets/html360.svg" width="128" alt="html360 logo">
 </p>
 
 A simple CLI tool to pack 360° equirectangular panoramas into a single, standalone HTML file. 
