@@ -33,7 +33,7 @@
     /* 
         Типы для последних функций языка    
     */
-    "lib": ["ESNext"],
+    "lib": ["ESNext", "DOM"],
 
     /* Строгая проверка (Best Practice) */
     "strict": true,

@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## 2.1.0 (2026-03-07)
+### ✨ Features
+- **Loader**: Added loader.
+- **Performance Fix**: Implemented deferred initialization to ensure the UI renders before heavy data parsing begins.
+
+### 🛠 Technical Changes
+- **Bundled Architecture**: Switched to esbuild for high-speed JS/CSS bundling. All assets are now minified and inlined into a single HTML.
+- **TypeScript Migration**: Rewrote the viewer core in TypeScript for better stability and future-proofing.
+- **Memory Optimization**: Automatic cleanup of heavy Base64 strings from the DOM after initialization to save RAM.
+
+
 ## 2.0.0 (2026-03-05)
 ### ⚠️ BREAKING CHANGES
 - **Node.js**: Increased minimum required version to **>=20.10.0**.
@@ -15,7 +26,7 @@
 - **UX**: Implemented `progressBar` termination on critical errors for a smoother exit.
 - **Demo**: Added a Live Demo link/module to the project.
 
-### 🛠 Internal Improvements
+### 🛠 Technical Changes
 - **Refactoring**: Implemented a centralized global error handler.
 - **Refactoring**: Converted `installMenu` and `uninstallMenu` to asynchronous functions.
 - **Logging**: Cleaned up and standardized error logging across the application.

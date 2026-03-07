@@ -3,7 +3,7 @@ import { program } from "commander";
 import { buildHtml360 } from "./processor";
 import { installMenu, uninstallMenu } from "./menu";
 import { logger } from "./logger";
-import pkg from "../package.json" with { type: "json" };
+import pkg from "../../package.json" with { type: "json" };
 
 try {
   program.name(pkg.name).description(pkg.description).version(pkg.version);

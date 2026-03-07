@@ -10,75 +10,112 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const srcPath = path.join(__dirname, "../src");
 const distPath = path.join(__dirname, "../dist");
-const svgPath = path.join(__dirname, "../src/html360.svg");
+const svgPath = path.join(__dirname, "../src/view/assets/html360.svg");
 const icoPath = path.join(distPath, "html360.ico");
-const libPath = path.dirname(fileURLToPath(import.meta.resolve("pannellum")));
 
-build().catch(() => process.exit(1));
+build();
 
 async function build() {
-  console.log("🏗️  Building html360...");
+  try {
+    console.log("🏗️  Building html360...");
 
-  await fs.rm(distPath, { recursive: true, force: true });
+    await fs.rm(distPath, { recursive: true, force: true });
+    await fs.mkdir(distPath);
+    await Promise.all([buildHtmlTemplate(), buildCli()]);
 
-  const [favicon, icoBuffer, pannellumJs, pannellumCss, rawTemplate] =
-    await Promise.all([
-      getSvgDataUri(svgPath),
-      createIcoBufferFromSvg(svgPath),
-      fs.readFile(path.join(libPath, "pannellum.js"), "utf8"),
-      fs.readFile(path.join(libPath, "pannellum.css"), "utf8"),
-      fs.readFile(path.join(srcPath, "template.html"), "utf8"),
-    ]);
+    console.log("✅ Build complete.");
+  } catch (e) {
+    console.error(e);
+    process.exit(1);
+  }
+}
 
-  const compiledTemplate = rawTemplate
-    .replace("{{FAVICON}}", favicon)
-    .replace("{{PANNELLUM_JS}}", pannellumJs)
-    .replace("{{PANNELLUM_CSS}}", pannellumCss);
+async function buildCli() {
+  await Promise.all([
+    createIco(),
+    buildCliJs(),
+    fs.copyFile(
+      path.join(srcPath, "cli/menu.bat"),
+      path.join(distPath, "menu.bat"),
+    ),
+  ]);
+}
 
-  await fs.mkdir(distPath);
-
-  await fs.writeFile(path.join(distPath, "template.html"), compiledTemplate);
-
+async function buildCliJs() {
   /** @type {import('esbuild').BuildOptions} */
   const options = {
-    target: "node20",
+    entryPoints: [path.join(srcPath, "cli/index.ts")],
     platform: "node",
+    target: "node20",
     format: "esm",
     bundle: true,
     minify: true,
     sourcemap: true,
-    packages: 'external',
-    entryPoints: {
-      index: "./src/index.ts",
-    },
-    outdir: "dist",
     write: true,
-  }
+    packages: "external",
+    outdir: "dist",
+  };
   await esbuild.build(options);
-
-  await fs.copyFile(
-    path.join(srcPath, "menu.bat"),
-    path.join(distPath, "menu.bat"),
-  );
-
-  await fs.writeFile(icoPath, icoBuffer);
-
-  console.log("✅ Build complete.");
 }
 
-/**
- * @param {string} svgPath
- */
-async function getSvgDataUri(svgPath) {
+async function buildHtmlTemplate() {
+  const [favicon, js, css, rawTemplate] = await Promise.all([
+    getFavicon(),
+    buildTemplateJs(),
+    buildTemplateCss(),
+    fs.readFile(path.join(srcPath, "view/index.html"), "utf8"),
+  ]);
+
+  const compiledTemplate = rawTemplate
+    .replace("{{FAVICON}}", favicon)
+    .replace("{{CSS}}", css)
+    .replace("{{JS}}", js);
+
+  await fs.writeFile(path.join(distPath, "template.html"), compiledTemplate);
+}
+
+async function buildTemplateJs() {
+  /** @type {import('esbuild').BuildOptions} */
+  const options = {
+    entryPoints: [path.join(srcPath, "view/ts/index.ts")],
+    bundle: true,
+    minify: true,
+    sourcemap: true,
+    write: false,
+    platform: "browser",
+    target: ["chrome58", "firefox57", "safari11", "edge16"],
+  };
+  const jsResult = await esbuild.build(options);
+
+  // @ts-ignore
+  return jsResult.outputFiles[0].text;
+}
+
+async function buildTemplateCss() {
+  /** @type {import('esbuild').BuildOptions} */
+  const options = {
+    entryPoints: [path.join(srcPath, "view/css/index.css")],
+    bundle: true,
+    minify: true,
+    write: false,
+    platform: "browser",
+    target: ["chrome58", "firefox57", "safari11", "edge16"],
+    loader: { ".svg": "dataurl", ".png": "dataurl" },
+  };
+  const cssResult = await esbuild.build(options);
+
+  // @ts-ignore
+  return cssResult.outputFiles[0].text;
+}
+
+async function getFavicon() {
   const svgRaw = await fs.readFile(svgPath, "utf8");
   const svgMinified = svgRaw.replace(/\s+/g, " ").trim();
   return `data:image/svg+xml,${encodeURIComponent(svgMinified)}`;
 }
 
-/**
- * @param {string} svgPath
- */
-async function createIcoBufferFromSvg(svgPath) {
+async function createIco() {
   const pngBuffer = await sharp(svgPath).resize(256, 256).png().toBuffer();
-  return await pngToIco(pngBuffer);
+  const icon = await pngToIco(pngBuffer);
+  await fs.writeFile(icoPath, icon);
 }
