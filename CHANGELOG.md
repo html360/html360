@@ -1,5 +1,11 @@
 # CHANGELOG
 
+<!-- ####################################################################################################### -->
+
+## 2.2.1 (2026-03-09)
+### 📝 Docs
+- Update README.md
+
 ## 2.2.0 (2026-03-09)
 ### ✨ Features
 - **Full Stream Integration**: Transitioned to a "pipe-through" data flow. Images are read, resized, WebP-compressed, Base64-encoded, and written to the HTML template in a single, continuous stream.
@@ -11,6 +17,12 @@
 - **Total Processing Time**: ↓ Reduced from 2:05 min to 34.5 sec (3.6x faster!).
 - **JS Heap Usage**: ↓ Consistent ~12 MB instead of massive memory spikes.
 - **Resource Efficiency**: High-speed parallel processing without blocking the main event loop.
+
+<!-- ####################################################################################################### -->
+
+## 2.1.1 (2026-03-07)
+### 📝 Docs
+- Update README.md 
 
 <!-- ####################################################################################################### -->
 

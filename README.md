@@ -5,6 +5,16 @@
 A simple CLI tool to pack 360° equirectangular panoramas into a single, standalone HTML file. 
 Perfect for sharing with friends via messengers or viewing offline.
 
+## 💡 The Core Idea
+The philosophy of **html360** is to make a 360° panorama feel like a simple, universal file (like a standard image or video). 
+
+You can open it on any device without:
+- Installing special software (**any modern web browser is all you need**).
+- Relying on external services (Google Photos, Yandex Disk, etc.).
+- An internet connection.
+
+It turns a complex interactive experience into a single portable document.
+
 ## ✨ Features
 - **All-in-one**: JS, CSS, and your photo (WebP Base64) inside one portable HTML.
 - **Optimization**: Automatic 8K resizing and WebP conversion via [Sharp](https://sharp.pixelplumbing.com).
