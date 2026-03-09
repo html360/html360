@@ -1,6 +1,6 @@
 {
   "name": "html360",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "CLI tool to create standalone 360° panoramas in a single HTML file.",
   "keywords": [
     "panorama",
