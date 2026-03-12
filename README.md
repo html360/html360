@@ -33,7 +33,7 @@ npx html360 panorama_1.jpg panorama_2.jpg
 
 One of the coolest features of **html360** is the ability to pack panoramas directly from your File Explorer. No terminal skills required for your friends!
 
-![Windows Context Menu Preview](https://github.com/d-hand/html360/raw/dev/assets/windows-integration.gif)
+![Windows Context Menu Preview](https://github.com/d-hand/html360/raw/dev/assets/windows-integration-v2.gif)
 *Right-click -> Send to -> html360*
 
 ### Setup Context Menu
@@ -51,13 +51,23 @@ html360 uninstall-menu
 3. Right-click -> Send to -> html360.
 4. Done! A standalone .html file will appear next to each image instantly.
 
-## ✨ Smart Optimization
-`html360` uses **Sharp** to compress high-resolution panoramas while preserving **8K quality** (8192×4096).
+## ✨ 8K Optimization
+Be default `html360` uses **Sharp** to compress high-resolution panoramas while preserving **8K quality** (8192×4096).
 
-*   **Before:** ~12.0 MB (Raw JPEG)
-*   **After:** **~2.4 MB** (Optimized WebP inside HTML)
+*   **Before:** ~50 MB (Raw JPEG)
+*   **After:** **~8 MB** (Optimized WebP inside HTML)
 
 This results in a **~80% reduction** in file size, making your interactive 360° scenes incredibly fast to load and easy to share.
+
+## ✨ Raw Original Mode
+For archival purposes or high-end desktop viewing, use the **Raw Original** mode (`-r` or `--raw`). This skips all compression and embeds your source file bit-for-bit into the HTML.
+
+> [!TIP]
+> Use **8K mode** for sharing on mobile and web, and **Raw Original** for your personal high-quality collection where every pixel matters.
+>
+> **8K mode** is so precise that visual differences are virtually indistinguishable on **12K (12000×6000)** panoramas, even with moderate zooming. Significant visual improvements with **Raw Original** only become noticeable on ultra-high-resolution sources, such as **21K (21456×10728)** or higher, particularly when preserving fine textures and original color depth.
+
+
 
 
 ## 💻 Requirements

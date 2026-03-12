@@ -1,6 +1,7 @@
 import os from "node:os";
 import path from "node:path";
-import fs from "node:fs/promises";
+import fs from "node:fs";
+import fsPromises from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { pipeline, finished } from "node:stream/promises";
 import pLimit from "p-limit";
@@ -8,12 +9,12 @@ import { Base64Encode } from "base64-stream";
 import sharp from "sharp";
 import { logger } from "./logger";
 import { startProgressBar } from "./progress-bar";
-import { silent } from "./utils";
+import { getMimeType, silent, SUPPORTED_FORMATS } from "./utils";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export async function buildHtml360(imgPaths: string[]) {
+export async function buildHtml360(imgPaths: string[], options: Options) {
   const errors: FileError[] = [];
   const templateInfo = await getTemplateHtmlInfo();
 
@@ -27,7 +28,7 @@ export async function buildHtml360(imgPaths: string[]) {
         const fileName = path.basename(imgPath);
 
         try {
-          await processImage(imgPath, templateInfo);
+          await processImage(imgPath, templateInfo, options);
         } catch (error) {
           errors.push({ fileName, error });
         } finally {
@@ -41,37 +42,57 @@ export async function buildHtml360(imgPaths: string[]) {
   errors.forEach(logFileError);
 }
 
-async function processImage(imgPath: string, template: TemplateHtmlInfo) {
-  const htmlPath = getHtmlPath(imgPath);
+async function processImage(
+  imgPath: string,
+  template: TemplateHtmlInfo,
+  options: Options,
+) {
+  const ext = path.extname(imgPath).toLowerCase();
+  if (!(ext in SUPPORTED_FORMATS)) {
+    throw new Error(`Unsupported file format: ${ext}`);
+  }
 
-  const fileHandle = await fs.open(htmlPath, "w");
+  const htmlPath = getHtmlPath(imgPath, options);
+  const fileHandle = await fsPromises.open(htmlPath, "w");
   try {
     const writeStream = fileHandle.createWriteStream();
 
     // Нюанс template.prefix и data:image/webp;base64 очень маленький. Они точно попадут во внутренний буфер стрима.
     writeStream.write(template.prefix);
-    writeStream.write("data:image/webp;base64,");
 
-    const transformer = sharp(imgPath)
-      .resize(8192, 4096, { fit: "inside" })
-      .webp({ quality: 85 });
+    if (options.raw) {
+      const mimeType = getMimeType(ext);
+      writeStream.write(`data:${mimeType};base64,`);
 
-    await pipeline(transformer, new Base64Encode(), writeStream, {
-      end: false,
-    });
+      const readStream = fs.createReadStream(imgPath);
+
+      await pipeline(readStream, new Base64Encode(), writeStream, {
+        end: false,
+      });
+    } else {
+      writeStream.write("data:image/webp;base64,");
+
+      const transformer = sharp(imgPath)
+        .resize(8192, 4096, { fit: "inside" })
+        .webp({ quality: 85 });
+
+      await pipeline(transformer, new Base64Encode(), writeStream, {
+        end: false,
+      });
+    }
 
     writeStream.end(template.suffix);
     await finished(writeStream);
     await fileHandle.close();
   } catch (error) {
     await silent(() => fileHandle.close());
-    await silent(() => fs.unlink(htmlPath));
+    await silent(() => fsPromises.unlink(htmlPath));
     throw error;
   }
 }
 
 async function getTemplateHtmlInfo(): Promise<TemplateHtmlInfo> {
-  const source = await fs.readFile(
+  const source = await fsPromises.readFile(
     path.join(__dirname, "template.html"),
     "utf8",
   );
@@ -84,9 +105,11 @@ async function getTemplateHtmlInfo(): Promise<TemplateHtmlInfo> {
   };
 }
 
-function getHtmlPath(absoluteImgPath: string) {
+function getHtmlPath(absoluteImgPath: string, options: Options) {
   const outputDir = path.dirname(absoluteImgPath);
-  const outputFileName = path.parse(absoluteImgPath).name + ".html";
+  const name = path.parse(absoluteImgPath).name;
+  const suffix = options.raw ? "_RAW" : "";
+  const outputFileName =  `${name}${suffix}.html`;
   const finalPath = path.join(outputDir, outputFileName);
   return finalPath;
 }
@@ -105,4 +128,8 @@ type TemplateHtmlInfo = {
   source: string;
   prefix: string;
   suffix: string;
+};
+
+export type Options = {
+  raw: boolean;
 };

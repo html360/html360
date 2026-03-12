@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## 2.3.0 (2026-03-13)
+### ✨ Features
+- **Raw Original Mode (`-r`, `--raw`)**: New processing mode that embeds images as-is without any compression or resizing. Perfect for archiving and high-end desktop viewing.
+- **Smart Suffixe**: Generated HTML files now include suffixe in their names:
+  - `_RAW.html` for original quality versions.
+- **Enhanced Windows Integration**:
+  - `install-menu` now adds two distinct options to the "Send To" menu:
+    - **html360 (8K)**: Fast, web-optimized 8K WebP.
+    - **html360 (Raw Original)**: Bit-perfect copy of your source.
+  - `install-menu` and `uninstall-menu` now automatically remove legacy shortcuts from previous versions to keep your "Send To" menu clean.
+- **Strict Format Validation**: Added explicit checks for supported formats (JPG, PNG, WebP).
+- **HEIC Warning**: Informative error message when attempting to process Apple's HEIC format, explaining browser incompatibility.
+
 
 <!-- ####################################################################################################### -->
 

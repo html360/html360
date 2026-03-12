@@ -10,6 +10,7 @@ try {
 
   program
     .argument("<image...>", "List of images to process")
+    .option("-r, --raw", "Disable 8K optimization and keep original image quality")
     .action(buildHtml360);
 
   program
