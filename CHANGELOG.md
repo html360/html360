@@ -1,5 +1,7 @@
 # CHANGELOG
 
+## 2.5.1 (2026-03-27)
+- Repair broken build caused by minification
 
 ## 2.5.0 (2026-03-27)
 ### ✨ Features
