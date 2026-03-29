@@ -6,7 +6,7 @@ import { HtmlChunks } from "./types";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const TEMPLATE_HTML = "template.html";
+export const TEMPLATE_HTML = "template.html";
 const PANORAMA_DATA = "{{PANORAMA_DATA}}";
 const STATE = "{{STATE}}";
 

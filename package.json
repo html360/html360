@@ -41,6 +41,7 @@
     "base64-stream": "1.0.0",
     "cli-progress": "3.12.0",
     "commander": "14.0.3",
+    "html360-gen": "2.5.0",
     "p-limit": "7.3.0",
     "pannellum": "2.5.7",
     "sharp": "0.34.5",

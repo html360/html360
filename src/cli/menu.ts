@@ -15,6 +15,7 @@ const MENU_ICO_PATH = path.join(__dirname, "html360.ico");
 const MENU_ITEMS = {
   Q8K: "html360 (8K).lnk",
   RAW: "html360 (Raw Original).lnk",
+  MULTIRES: "html360 (Multiresolution).lnk",
 };
 
 export async function installMenu(): Promise<void> {
@@ -42,6 +43,10 @@ function getMenuItems(): MenuItems[] {
     {
       path: getLinkPath(MENU_ITEMS.RAW),
       args: "-r",
+    },
+    {
+      path: getLinkPath(MENU_ITEMS.MULTIRES),
+      args: "multires",
     },
   ];
 

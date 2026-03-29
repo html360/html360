@@ -8,6 +8,9 @@ export type State = {
   hotspots: PannellumHotSpot[];
   tourCandidatesUrls: string[];
   isEditMode: boolean;
+  isMultires: boolean;
+  author?: string;
+  authorURL?: string;
   version: string;
 };
 
@@ -19,5 +22,6 @@ export const defaultState: State = {
   hotspots: [],
   tourCandidatesUrls: [],
   isEditMode: false,
-  version: "",
+  isMultires: false,
+  version: "0.0.0",
 };

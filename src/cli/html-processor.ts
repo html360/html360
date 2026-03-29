@@ -11,14 +11,14 @@ import { silent } from "./utils";
 import { getMimeType, verifyFileFormat } from "./supported-formats";
 import { writeAsync } from "./stream-utils";
 import { defaultState, State } from "../core/state";
-import { Context, FileError, Options } from "./types";
-import { getContext } from "./context";
+import { HtmlContext, FileError, HtmlOptions } from "./types";
+import { getHtmlContext } from "./context";
 import pkg from "../../package.json" with { type: "json" };
 
-export async function buildHtml360(imgPaths: string[], options: Options) {
+export async function buildHtml(imgPaths: string[], options: HtmlOptions) {
   imgPaths = imgPaths.map((x) => path.resolve(x));
   const errors: FileError[] = [];
-  const ctx = await getContext(imgPaths, options);
+  const ctx = await getHtmlContext(imgPaths, options);
   const limit = pLimit(ctx.threadCount);
 
   await startProgressBar(ctx, async (incProgressBar) => {
@@ -41,7 +41,7 @@ export async function buildHtml360(imgPaths: string[], options: Options) {
   errors.forEach(logFileError);
 }
 
-async function processImage(imgPath: string, ctx: Context) {
+async function processImage(imgPath: string, ctx: HtmlContext) {
   verifyFileFormat(imgPath);
   const { options, htmlChunks } = ctx;
   const htmlPath = getHtmlPath(imgPath, options);
@@ -68,7 +68,7 @@ async function processImage(imgPath: string, ctx: Context) {
 async function writeImage(
   writeStream: fs.WriteStream,
   imgPath: string,
-  options: Options,
+  options: HtmlOptions,
 ) {
   if (options.raw) {
     const mimeType = getMimeType(imgPath);
@@ -95,7 +95,7 @@ async function writeImage(
 async function writeState(
   writeStream: fs.WriteStream,
   imgPath: string,
-  ctx: Context,
+  ctx: HtmlContext,
 ) {
   const state: State = {
     name: getHtmlName(imgPath, ctx.options),
@@ -105,6 +105,7 @@ async function writeState(
     hotspots: defaultState.hotspots,
     tourCandidatesUrls: getToursCandidatesUrls(imgPath, ctx),
     isEditMode: defaultState.isEditMode,
+    isMultires: false,
     version: pkg.version,
   };
 
@@ -112,19 +113,19 @@ async function writeState(
   await writeAsync(writeStream, json);
 }
 
-function getHtmlPath(imgPath: string, options: Options) {
+function getHtmlPath(imgPath: string, options: HtmlOptions) {
   const dir = path.dirname(imgPath);
   const name = getHtmlName(imgPath, options);
   return path.join(dir, name);
 }
 
-function getHtmlName(imgPath: string, options: Options) {
+function getHtmlName(imgPath: string, options: HtmlOptions) {
   const name = path.parse(imgPath).name;
   const suffix = options.raw ? "_RAW" : "";
   return `${name}${suffix}.html`;
 }
 
-function getToursCandidatesUrls(imgPath: string, ctx: Context): string[] {
+function getToursCandidatesUrls(imgPath: string, ctx: HtmlContext): string[] {
   const htmlPath = getHtmlPath(imgPath, ctx.options);
   const tours = ctx.imgPaths
     .filter((x) => x !== imgPath)

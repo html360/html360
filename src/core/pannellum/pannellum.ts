@@ -10,13 +10,16 @@ export type Pannellum = {
 export type PannellumConfig = {
   panorama: string;
   type: "equirectangular";
-  autoLoad?: boolean;
-  showControls?: boolean;
   yaw?: number;
   pitch?: number;
   hfov?: number;
   hotSpots?: PannellumHotSpot[];
   draggable?: boolean;
+  autoLoad?: boolean;
+  showControls?: boolean;
+  basePath?: string;
+  author?: string;
+  authorURL?: string;  
 };
 
 export type PannellumViewer = {

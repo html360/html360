@@ -1,4 +1,8 @@
-import pannellum, { ClickHandlerArgs, PannellumHotSpot } from "../../core/pannellum/pannellum";
+import pannellum, {
+  ClickHandlerArgs,
+  PannellumConfig,
+  PannellumHotSpot,
+} from "../../core/pannellum/pannellum";
 import { Store } from "../store/store";
 import { getElementById, getPanoramaElement } from "../utils/document";
 import { createEventEmitter } from "../utils/event-emitter";
@@ -15,34 +19,78 @@ type ViewerAdapterEvents = {
 };
 
 async function create(store: Store) {
-  const dataElement = getElementById("panorama-data");
-  const base64Data = dataElement.textContent.trim();
-  const blob = await (await fetch(base64Data)).blob();
-  const objectURL = URL.createObjectURL(blob);
+  const viewer = store.state.isMultires
+    ? await createMultiresViewer()
+    : await createHtmlViewer();
 
-  getElementById("loader").style.display = "none";
+  async function createHtmlViewer() {
+    const dataElement = getElementById("panorama-data");
+    const base64Data = dataElement.textContent.trim();
+    const blob = await (await fetch(base64Data)).blob();
+    const objectURL = URL.createObjectURL(blob);
 
-  const viewer = pannellum.viewer(getPanoramaElement(), {
-    type: "equirectangular",
-    panorama: objectURL,
-    autoLoad: true,
-    showControls: false,
-    yaw: store.state.yaw,
-    pitch: store.state.pitch,
-    hfov: store.state.hfov,
-    hotSpots: store.state.hotspots
+    getElementById("loader").style.display = "none";
+
+    const config: PannellumConfig = {
+      type: "equirectangular",
+      panorama: objectURL,
+      autoLoad: true,
+      showControls: false,
+      yaw: store.state.yaw,
+      pitch: store.state.pitch,
+      hfov: store.state.hfov,
+      hotSpots: store.state.hotspots
+        .filter((x) => x.id)
+        .map((x) => ({
+          ...x,
+          clickHandlerFunc: (e, args) =>
+            onHotspotClick(e, x.id as string, args),
+        })),
+    };
+    if (store.state.author) config.author = store.state.author;
+    if (store.state.authorURL) config.authorURL = store.state.authorURL;
+
+    const viewer = pannellum.viewer(getPanoramaElement(), config);
+
+    viewer.on("load", () => {
+      URL.revokeObjectURL(objectURL);
+    });
+
+    return viewer;
+  }
+
+  async function createMultiresViewer() {
+    const responce = await fetch("config.json");
+    const config: PannellumConfig = await responce.json();
+    config.basePath = "./";
+    config.autoLoad = true;
+    config.showControls = false;
+    config.yaw = store.state.yaw;
+    config.pitch = store.state.pitch;
+    config.hfov = store.state.hfov;
+    config.hotSpots = store.state.hotspots
       .filter((x) => x.id)
       .map((x) => ({
         ...x,
         clickHandlerFunc: (e, args) => onHotspotClick(e, x.id as string, args),
-      })),
-  });
+      }));
+    if (store.state.author) config.author = store.state.author;
+    if (store.state.authorURL) config.authorURL = store.state.authorURL;
+
+    getElementById("loader").style.display = "none";
+
+    return pannellum.viewer(getPanoramaElement(), config);
+  }
 
   const event = createEventEmitter<ViewerAdapterEvents>();
   const on = event.on;
   const off = event.off;
 
-  const onHotspotClick = (e: MouseEvent, id: string, args: ClickHandlerArgs) => {
+  const onHotspotClick = (
+    e: MouseEvent,
+    id: string,
+    args: ClickHandlerArgs,
+  ) => {
     e.stopPropagation();
     e.preventDefault();
 
@@ -53,10 +101,6 @@ async function create(store: Store) {
       navigateTo(hs?.URL, args.openInNewTab);
     }
   };
-
-  viewer.on("load", () => {
-    URL.revokeObjectURL(objectURL);
-  });
 
   viewer.on("mouseup", (e: MouseEvent) => {
     store.setYaw(viewer.getYaw());
@@ -84,8 +128,8 @@ async function create(store: Store) {
       clickHandlerFunc: (e, args: ClickHandlerArgs) =>
         onHotspotClick(e, hotspotData.id as string, args),
       clickHandlerArgs: {
-        openInNewTab, 
-      }
+        openInNewTab,
+      },
     };
 
     viewer.addHotSpot(hotspot);

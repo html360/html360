@@ -1,10 +1,10 @@
 import c from "ansi-colors";
 import { SingleBar } from "cli-progress";
 import { formatTime, getRSS, toMB } from "./utils";
-import { Context } from "./types";
+import { HtmlContext } from "./types";
 
 export async function startProgressBar(
-  ctx: Context,
+  ctx: HtmlContext,
   action: (increment: (errors: number) => void) => Promise<void>,
 ): Promise<void> {
   const start = performance.now();

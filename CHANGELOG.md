@@ -1,7 +1,19 @@
 # CHANGELOG
 
+<!-- ####################################################################################################### -->
+
+## 2.6.0 (2026-04-06)
+### ✨ Features
+- **Gigapixel Support**: New multires command for 40K+ panoramas using tile slicing.
+- **Binary Core**: Integrated pre-compiled generate.py (Pannellum) for Win/Mac/Linux via `@html360/gen`.
+- **Zero-Dependency**: No Python installation required.
+
+<!-- ####################################################################################################### -->
+
 ## 2.5.1 (2026-03-27)
 - Repair broken build caused by minification
+
+<!-- ####################################################################################################### -->
 
 ## 2.5.0 (2026-03-27)
 ### ✨ Features
