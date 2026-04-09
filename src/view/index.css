@@ -5,6 +5,7 @@
 @import "./styles/label.css";
 @import "./styles/input.css";
 @import "./styles/checkbox.css";
+@import "./toast/toast.css";
 @import "./crosshair/crosshair.css";
 @import "./styles/loader.css";
 @import "./menu/menu.css";

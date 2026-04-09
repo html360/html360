@@ -1,6 +1,6 @@
 import { PannellumHotSpot } from "../../core/pannellum/pannellum";
 import { defaultState, State } from "../../core/state";
-import { getElementById, getPanoramaElement } from "../utils/document";
+import { getElementById } from "../utils/document";
 import { createEventEmitter } from "../utils/event-emitter";
 
 export type Store = ReturnType<typeof create>;
@@ -56,6 +56,15 @@ function create() {
     event.emit("setIsEditMode", value);
   };
 
+  const getOrientationUrlParams = () => {
+    const result = new URLSearchParams({
+      yaw: state.yaw.toFixed(2),
+      pitch: state.pitch.toFixed(2),
+      hfov: state.hfov.toFixed(2),
+    });
+    return `?${result.toString()}`;
+  };
+
   const save = () => {
     setIsEditMode(false);
     stateElement.textContent = JSON.stringify(state);
@@ -81,6 +90,7 @@ function create() {
     addHotspot,
     removeHotspot,
     setIsEditMode,
+    getOrientationUrlParams,
     on,
     off,
     save,
@@ -89,9 +99,25 @@ function create() {
 
 const getState = (stateElement: HTMLElement): State => {
   try {
-    return JSON.parse(stateElement.textContent);
+    const state = JSON.parse(stateElement.textContent) as State;
+    const params = new URLSearchParams(window.location.search);
+    state.yaw = parseOrientationValue(params, "yaw", state.yaw, -360, 360);
+    state.pitch = parseOrientationValue(params, "pitch", state.pitch, -90, 90);
+    state.hfov = parseOrientationValue(params, "hfov", state.hfov, 50, 120);
+    return state;
   } catch (error) {
     console.log(error);
     return defaultState;
   }
+};
+
+const parseOrientationValue = (
+  params: URLSearchParams,
+  key: "yaw" | "pitch" | "hfov",
+  defaultValue: number,
+  min: number,
+  max: number,
+) => {
+  const val = parseFloat(params.get(key) || "");
+  return !isNaN(val) ? Math.max(min, Math.min(max, val)) : defaultValue;
 };

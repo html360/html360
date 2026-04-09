@@ -99,6 +99,16 @@ Transform a collection of panoramas into a connected 3D experience without leavi
 
 <!-- ####################################################################################################### -->
 
+## ✨ Precision Tour Crafting
+Take full control over your interactive 3D tours. 
+
+![Copy Orientation Demo](assets/copy-orientation.gif)
+
+By default, a panorama has only one "home" position. However, with the new **Orientation Copy** feature, you can define exactly what the user sees at every single step of their journey.
+
+
+<!-- ####################################################################################################### -->
+
 ## ✨ 8K Optimization
 Be default `html360` uses **Sharp** to compress high-resolution panoramas while preserving **8K quality** (8192×4096).
 
@@ -142,6 +152,11 @@ While **html360** manages the CLI and templates, the heavy lifting is done by th
 - **Zero Dependencies**: You **do not** need to install Python. Everything is pre-compiled and shipped via our @html360/gen package.
 - **Smart Defaults**: We’ve fine-tuned the core settings (e.g., default quality is set to 95%) to ensure your gigapixel tours look flawless without manual tweaking.
 
+> ### 💡 Tip
+> To truly feel the power of **Infinite Zoom**, we recommend using high-end source images of **60K (60,000 x 30,000 px)** or higher. 
+> While standard panoramas look good, it's only at the **Gigapixel scale** that you can zoom into distant horizons and discover microscopic details — like reading a street sign from a kilometer away — without any pixelation. 
+> **Pannellum** handles the heavy slicing, so don't be afraid to go big!
+
 <!-- ####################################################################################################### -->
 
 ## 💻 Requirements
@@ -156,6 +171,7 @@ To use **html360**, you need to have the following installed:
 ## 🤝 Built With
 Big thanks to these amazing projects that power html360:
 *   **[Pannellum](https://pannellum.org)** — the core 360° viewer engine.
+*   **[Hugin](https://hugin.sourceforge.io/)** — specifically the nona tool, providing the power for panorama transformations.
 *   **[Sharp](https://sharp.pixelplumbing.com)** — for high-speed image optimization.
 *   **[Google Gemini](https://deepmind.google)** — for co-authoring the entire project.
 *   **The Open Source Community** — and all the amazing dependencies that make this tool possible.

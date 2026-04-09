@@ -31,24 +31,10 @@ async function create(store: Store) {
 
     getElementById("loader").style.display = "none";
 
-    const config: PannellumConfig = {
+    const config = buildConfig({
       type: "equirectangular",
       panorama: objectURL,
-      autoLoad: true,
-      showControls: false,
-      yaw: store.state.yaw,
-      pitch: store.state.pitch,
-      hfov: store.state.hfov,
-      hotSpots: store.state.hotspots
-        .filter((x) => x.id)
-        .map((x) => ({
-          ...x,
-          clickHandlerFunc: (e, args) =>
-            onHotspotClick(e, x.id as string, args),
-        })),
-    };
-    if (store.state.author) config.author = store.state.author;
-    if (store.state.authorURL) config.authorURL = store.state.authorURL;
+    });
 
     const viewer = pannellum.viewer(getPanoramaElement(), config);
 
@@ -60,26 +46,44 @@ async function create(store: Store) {
   }
 
   async function createMultiresViewer() {
-    const responce = await fetch("config.json");
-    const config: PannellumConfig = await responce.json();
-    config.basePath = "./";
+    const response = await fetch("config.json");
+
+    if (!response.ok) {
+      throw new Error(`Failed to load config.json: ${response.statusText}`);
+    }
+
+    const jsonConfig: PannellumConfig = await response.json();
+
+    const config = buildConfig({
+      ...jsonConfig,
+      basePath: "./",
+    });
+
+    getElementById("loader").style.display = "none";
+
+    return pannellum.viewer(getPanoramaElement(), config);
+  }
+
+  function buildConfig(initConfig: PannellumConfig): PannellumConfig {
+    const config: PannellumConfig = { ...initConfig };
+
     config.autoLoad = true;
     config.showControls = false;
     config.yaw = store.state.yaw;
     config.pitch = store.state.pitch;
     config.hfov = store.state.hfov;
     config.hotSpots = store.state.hotspots
-      .filter((x) => x.id)
+      .filter((x) => !!x.id)
       .map((x) => ({
         ...x,
-        clickHandlerFunc: (e, args) => onHotspotClick(e, x.id as string, args),
+        clickHandlerFunc: (e, args) => onHotspotClick(e, x.id, args),
       }));
+
     if (store.state.author) config.author = store.state.author;
+
     if (store.state.authorURL) config.authorURL = store.state.authorURL;
 
-    getElementById("loader").style.display = "none";
-
-    return pannellum.viewer(getPanoramaElement(), config);
+    return config;
   }
 
   const event = createEventEmitter<ViewerAdapterEvents>();

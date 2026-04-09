@@ -17,7 +17,9 @@ const isProd = process.argv.includes("prod");
 /** @type {import('esbuild').BuildOptions} */
 const commonOptions = {
   bundle: true,
-  minify: isProd,
+  minifyWhitespace: isProd,
+  minifySyntax: isProd,
+  minifyIdentifiers: false,
   keepNames: true,
   sourcemap: isProd ? false : "inline",
   sourcesContent: !isProd,

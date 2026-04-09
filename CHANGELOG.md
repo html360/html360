@@ -2,6 +2,18 @@
 
 <!-- ####################################################################################################### -->
 
+## 2.7.0 (2026-04-12)
+### ✨ Features
+- Added button to copy view orientation as URL parameters.
+- Implemented automatic view parsing from query strings (yaw, pitch, hfov).
+
+### 🛠 Technical Changes
+- Update html360-gen to the latest version.
+- Removed redundant/internal typings for html360-gen
+- Adjusted esbuild configuration (disabled minifyIdentifiers) to ensure production stability with complex generic types
+
+<!-- ####################################################################################################### -->
+
 ## 2.6.0 (2026-04-06)
 ### ✨ Features
 - **Gigapixel Support**: New multires command for 40K+ panoramas using tile slicing.
