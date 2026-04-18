@@ -7,6 +7,7 @@
 @import "./styles/checkbox.css";
 @import "./toast/toast.css";
 @import "./crosshair/crosshair.css";
+@import "./lock-overlay/lock-overlay.css";
 @import "./styles/loader.css";
 @import "./menu/menu.css";
 @import "./edit-mode-actions/edit-mode-actions.css";

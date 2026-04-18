@@ -118,7 +118,7 @@ async function create(store: Store) {
 
   viewer.on("zoomchange", () => {
     store.setHfov(viewer.getHfov());
-  });
+  }); 
 
   const addHotspot = (
     hotspotData: Pick<

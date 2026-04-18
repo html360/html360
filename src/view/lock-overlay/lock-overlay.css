@@ -1,0 +1,20 @@
+.lock-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--lock-overlay-color);
+  backdrop-filter: var(--lock-overlay-blur);
+  z-index: var(--z-index-max);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: not-allowed;
+}
+
+.lock-overlay-hint {
+  padding: var(--panel-padding); 
+  border: var(--panel-border);
+  border-radius: var(--panel-radius); 
+  background: var(--panel-bg); 
+  box-shadow: var(--panel-shadow);
+  color: var(--color-white); 
+}

@@ -13,13 +13,19 @@
   --color-red: rgb(255, 59, 48);
   --color-red-deep: rgb(224, 49, 38);
 
+  --lock-overlay-color: rgba(100, 100, 100, 0.6);
+
+  /*********************************************/
+
+  --lock-overlay-blur: blur(4px);
+
   /*********************************************/
   --panel-width: 300px;  
   --panel-padding: 16px;
   --panel-border: 1px solid var(--color-gray);
   --panel-radius: 28px;
   --panel-bg: var(--color-black);
-  --panel-box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  --panel-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
   --panel-delimiter-margin: 8px;
   --panel-delimiter-padding: 12px;  
   /*********************************************/

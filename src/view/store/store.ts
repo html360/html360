@@ -2,6 +2,7 @@ import { PannellumHotSpot } from "../../core/pannellum/pannellum";
 import { defaultState, State } from "../../core/state";
 import { getElementById } from "../utils/document";
 import { createEventEmitter } from "../utils/event-emitter";
+import { parseYaw, parsePitch, parseHfov } from "../url/url";
 
 export type Store = ReturnType<typeof create>;
 
@@ -101,9 +102,9 @@ const getState = (stateElement: HTMLElement): State => {
   try {
     const state = JSON.parse(stateElement.textContent) as State;
     const params = new URLSearchParams(window.location.search);
-    state.yaw = parseOrientationValue(params, "yaw", state.yaw, -360, 360);
-    state.pitch = parseOrientationValue(params, "pitch", state.pitch, -90, 90);
-    state.hfov = parseOrientationValue(params, "hfov", state.hfov, 50, 120);
+    state.yaw = parseYaw(params) ?? state.yaw;
+    state.pitch = parsePitch(params) ?? state.pitch;
+    state.hfov = parseHfov(params) ?? state.hfov;
     return state;
   } catch (error) {
     console.log(error);
@@ -111,13 +112,3 @@ const getState = (stateElement: HTMLElement): State => {
   }
 };
 
-const parseOrientationValue = (
-  params: URLSearchParams,
-  key: "yaw" | "pitch" | "hfov",
-  defaultValue: number,
-  min: number,
-  max: number,
-) => {
-  const val = parseFloat(params.get(key) || "");
-  return !isNaN(val) ? Math.max(min, Math.min(max, val)) : defaultValue;
-};

@@ -102,9 +102,11 @@ Transform a collection of panoramas into a connected 3D experience without leavi
 ## ✨ Precision Tour Crafting
 Take full control over your interactive 3D tours. 
 
-![Copy Orientation Demo](assets/copy-orientation.gif)
+![Copy Orientation Demo](assets/copy-orientation-v2.gif)
 
-By default, a panorama has only one "home" position. However, with the new **Orientation Copy** feature, you can define exactly what the user sees at every single step of their journey.
+By default, a panorama has only one "home" position. With the **Orientation Copy** feature, you can define exactly what the user sees at every step. Now there are two ways to do this:
+- **Manual**: Open a panorama in a new tab and copy coordinates manually.
+- **Automatic (v2.8.0)**: Open the destination panorama in the built-in preview window. Just find the perfect view — the coordinates will sync automatically as you rotate the camera.
 
 
 <!-- ####################################################################################################### -->

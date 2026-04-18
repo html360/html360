@@ -2,6 +2,14 @@
 
 <!-- ####################################################################################################### -->
 
+## 2.8.0 (2026-04-22)
+### ✨ Features
+- **Goodbye Manual Copying**: Orientation coordinates now flow directly from your preview window to your project.
+- **One-Click Workflow**: Open the target panorama, find your angle, and let the system handle the math.
+- **Integrated Setup**: Enhanced bridge between the controller and the viewer for a lag-free crafting experience.
+
+<!-- ####################################################################################################### -->
+
 ## 2.7.0 (2026-04-12)
 ### ✨ Features
 - Added button to copy view orientation as URL parameters.

@@ -15,7 +15,7 @@
   background: var(--panel-bg);
   border: var(--panel-border);
   border-radius: var(--panel-radius);
-  box-shadow: var(--panel-box-shadow);
+  box-shadow: var(--panel-shadow);
 }
 
 .menu-header {

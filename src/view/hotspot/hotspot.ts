@@ -2,12 +2,15 @@ import {
   PannellumHotSpot,
   PannellumHotSpotType,
 } from "../../core/pannellum/pannellum";
-import { CanBeUndefined, Nullable } from "../../core/types";
+import { CanBeNull, CanBeUndefined } from "../../core/types";
+import { type LockOverlay } from "../lock-overlay/lock-overlay";
+import { isOrientationMessage } from "../orientation-messager/orientation-messager";
 import { Store } from "../store/store";
 import { getElementById, getPanoramaElement } from "../utils/document";
-import { createEventEmitter } from "../utils/event-emitter";
+import { SimpleUrl } from "../url/url";
 import { generateId } from "../utils/utils";
 import { type ViewerAdapter } from "../viewer/viewer-adapter";
+import { svgCopyOrientation } from "../svg/svg";
 
 export type Hotspot = ReturnType<typeof create>;
 
@@ -15,13 +18,10 @@ export const Hotspot = {
   create,
 };
 
-type HotspotEvents = {
-  visibilityChange: (isVisible: boolean) => void;
-};
-
 function create(store: Store, viewer: ViewerAdapter) {
   let type: CanBeUndefined<PannellumHotSpotType>;
   let hotspot: CanBeUndefined<PannellumHotSpot>;
+  let popupWindow: CanBeNull<Window> = null;
   const hotspotElm = getElementById("hotspot");
   const hotspotHeader = getElementById<HTMLDivElement>("hotspot-header");
   const textElm = getElementById<HTMLInputElement>("hotspot-text");
@@ -30,14 +30,13 @@ function create(store: Store, viewer: ViewerAdapter) {
   const openInNewTabElm = getElementById<HTMLInputElement>(
     "hotspot-open-new-tab",
   );
+  const openUrlBtn = getElementById("hotspot-open-url");
   const saveBtn = getElementById("hotspot-save");
   const closeBtn = getElementById("hotspot-close");
   const deleteBtn = getElementById("hotspot-delete");
   const panoramaElm = getPanoramaElement();
 
-  const event = createEventEmitter<HotspotEvents>();
-  const on = event.on;
-  const off = event.off;
+  openUrlBtn.insertAdjacentHTML("beforeend", svgCopyOrientation);
 
   const onSaveClick = () => {
     if (hotspot?.id) {
@@ -87,6 +86,41 @@ function create(store: Store, viewer: ViewerAdapter) {
     }
   };
 
+  const onOpenUrl = () => {
+    const url = urlElm.value.trim();
+
+    if (!url) {
+      return;
+    }
+
+    const width = window.screen.width / 2;
+    const height = window.screen.height / 2;
+    const left = (window.screen.width - width) / 2;
+    const top = (window.screen.height - height) / 2;
+
+    popupWindow = window.open(
+      url,
+      "Viewer",
+      `width=${width},height=${height},top=${top},left=${left},resizable=yes,scrollbars=yes`,
+    );
+
+    if (!popupWindow) {
+      alert("Pop-up blocked! Please allow pop-ups for this site.");
+    }
+  };
+
+  const onMessage = (event: MessageEvent) => {
+    if (isOrientationMessage(event)) {
+      const url = new SimpleUrl(urlElm.value);
+
+      url.query.set("yaw", event.data.yaw.toFixed(2));
+      url.query.set("pitch", event.data.pitch.toFixed(2));
+      url.query.set("hfov", event.data.hfov.toFixed(2));
+
+      urlElm.value = url.toString();
+    }
+  };
+
   const show = async (props: { id?: string; type?: PannellumHotSpotType }) => {
     hotspot = store.state.hotspots.find((x) => x.id === props.id);
     type = hotspot?.type ?? props.type;
@@ -125,22 +159,28 @@ function create(store: Store, viewer: ViewerAdapter) {
 
     document.addEventListener("click", onClickOutside);
     panoramaElm.addEventListener("contextmenu", onContextMenu);
+    openUrlBtn.addEventListener("click", onOpenUrl);
     saveBtn.addEventListener("click", onSaveClick);
     closeBtn.addEventListener("click", onCloseClick);
     deleteBtn.addEventListener("click", onDelete);
+    window.addEventListener("message", onMessage);
+
     hotspotElm.classList.remove("hidden");
-    event.emit("visibilityChange", true);
   };
 
   const hide = () => {
     hotspot = undefined;
+    popupWindow?.close();
+
     document.removeEventListener("click", onClickOutside);
     panoramaElm.removeEventListener("contextmenu", onContextMenu);
+    openUrlBtn.removeEventListener("click", onOpenUrl);
     saveBtn.removeEventListener("click", onSaveClick);
     closeBtn.removeEventListener("click", onCloseClick);
     deleteBtn.removeEventListener("click", onDelete);
+    window.removeEventListener("message", onMessage);
+
     hotspotElm.classList.add("hidden");
-    event.emit("visibilityChange", false);
   };
 
   viewer.on("hotspotClick", (id) => show({ id }));
@@ -148,7 +188,5 @@ function create(store: Store, viewer: ViewerAdapter) {
   return {
     show,
     hide,
-    on,
-    off,
   };
 }

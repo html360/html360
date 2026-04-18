@@ -1,6 +1,7 @@
 import { PannellumHotSpotType } from "../../core/pannellum/pannellum";
 import { Hotspot } from "../hotspot/hotspot";
 import { Store } from "../store/store";
+import { svgAddInfo, svgAddPanorama, svgCopyOrientation } from "../svg/svg";
 import { showToast } from "../toast/toast";
 import { copyTextToClipboard, getElementById } from "../utils/document";
 
@@ -17,6 +18,10 @@ function create(store: Store, hotspot: Hotspot) {
   const copyOrientationBtm = getElementById(
     "edit-mode-actinos-copy-orientation",
   );
+
+  addPanoramaBtm.insertAdjacentHTML("beforeend", svgAddPanorama);
+  addInfoBtm.insertAdjacentHTML("beforeend", svgAddInfo);
+  copyOrientationBtm.insertAdjacentHTML("beforeend", svgCopyOrientation);
 
   const addHotspot = (type: PannellumHotSpotType) => {
     setTimeout(() => {
