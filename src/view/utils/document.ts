@@ -7,14 +7,6 @@ export function getElementById<T = HTMLElement>(id: string): T {
   return result;
 }
 
-export function getPanoramaElement(): HTMLDivElement {
-  return getElementById("panorama") as HTMLDivElement;
-}
-
-export function getUiLayerElement(): HTMLDivElement {
-  return getElementById("ui-layer") as HTMLDivElement;
-}
-
 export function copyTextToClipboard(text: string): boolean {
   const textArea = document.createElement("textarea");
   textArea.value = text;

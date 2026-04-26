@@ -2,6 +2,14 @@
 
 <!-- ####################################################################################################### -->
 
+## 2.8.1 (2026-04-26)
+### Fixed
+- **Button Duplication:** Resolved an issue where control buttons were duplicated after saving the page or re-initializing the viewer.
+
+### Changed
+- **Demo Migration:** Moved all demo examples from a personal repository to the official organization repository: [html360.github.io](https://html360.github.io/).
+<!-- ####################################################################################################### -->
+
 ## 2.8.0 (2026-04-22)
 ### ✨ Features
 - **Goodbye Manual Copying**: Orientation coordinates now flow directly from your preview window to your project.

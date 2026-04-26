@@ -27,23 +27,6 @@ button, input, select, textarea {
   line-height: inherit;
 }
 
-#ui-layer {
-  position: absolute;
-  inset: 0;
-  z-index: var(--z-index-1);
-  pointer-events: none; 
-}
-
-#ui-layer * {
-  pointer-events: auto; 
-}
-
-#panorama {
-  width: 100vw;
-  height: 100vh;
-  background: var(--color-black);
-}
-
 .hidden {
   visibility: hidden;
 }

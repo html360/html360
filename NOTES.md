@@ -3,13 +3,11 @@
 ## !!! 
 - Тесты
 - WebXR/VR Mode: Кнопка для перехода в режим виртуальной реальности (для Google Cardboard или Oculus).
-- Более чистое сохранение
 - Выводи информации сколько весит js и css который добавляется в html
 - Добавить логотип в терминал image-to-ascii
 - Сходить в nano с проблемой про большие tif, но возможно они и так о ней знают.
 - html360. WebServer для раболты с multires
     - Тулза для просмотра панорам в указаной папке?) Для multires нужен локальный web-сервер + Это может быть просто удобно... 
-- html360. Отдельная репа для демо. Если получится найти хорошую панораму ~50K.
 - html360-gen. UnicodeEncodeError: 'charmap' codec can't encode character '\xed' in position 153: character maps to <undefined>
 
 
@@ -35,7 +33,7 @@
 6.  **Проверить все команды html360**
 7.  **Проверить CHANGELOG** Обратить вниание на дату релиза
 8.  Создать коммит в мастер: `feat: release x.x.x`, `Update README.md`, ...
-9.  **Создать коммит выпуска новой версии** `npm version x.x.x && npm run build`
+9.  **Создать коммит выпуска новой версии** `npm version x.x.x && npm run build && git push origin --follow-tags`
 10. **Последний раз все проверить**
 11. Создать релиз на github (опционально)
 12. Логин `npm login`

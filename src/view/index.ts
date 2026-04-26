@@ -5,15 +5,17 @@ import { Store } from "./store/store";
 import { ViewerAdapter } from "./viewer/viewer-adapter";
 import { Crosshair } from "./crosshair/crosshair";
 import { OrientationMessager } from "./orientation-messager/orientation-messager";
+import { UILayer } from "./ui-layer/ui-layer";
 
 window.addEventListener("load", async () => {
   const store = Store.create();
-  const viewer = await ViewerAdapter.create(store);
-  const mainMenu = MainMenu.create(store);
-  const hotspot = Hotspot.create(store, viewer);
-  const editModeActions = EditModeActions.create(store, hotspot);
+  const uiLayer = UILayer.create();
+  const viewer = await ViewerAdapter.create(store, uiLayer);
+  const mainMenu = MainMenu.create(store, viewer, uiLayer);
+  const hotspot = Hotspot.create(store, viewer, uiLayer);
+  const editModeActions = EditModeActions.create(store, hotspot, uiLayer);
 
-  Crosshair.create(store);
+  Crosshair.create(store, uiLayer);
   OrientationMessager.create(store);
 
   (window as any).html360 = {

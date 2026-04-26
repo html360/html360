@@ -3,7 +3,7 @@ import { Hotspot } from "../hotspot/hotspot";
 import { Store } from "../store/store";
 import { svgAddInfo, svgAddPanorama, svgCopyOrientation } from "../svg/svg";
 import { showToast } from "../toast/toast";
-import { copyTextToClipboard, getElementById } from "../utils/document";
+import { copyTextToClipboard } from "../utils/document";
 
 export type EditModeActions = ReturnType<typeof create>;
 
@@ -11,18 +11,18 @@ export const EditModeActions = {
   create,
 };
 
-function create(store: Store, hotspot: Hotspot) {
-  const menu = getElementById("edit-mode-actinos");
-  const addPanoramaBtm = getElementById("edit-mode-actinos-add-panorama");
-  const addInfoBtm = getElementById("edit-mode-actinos-add-info");
-  const copyOrientationBtm = getElementById(
-    "edit-mode-actinos-copy-orientation",
-  );
+function create(store: Store, hotspot: Hotspot, uiLayer: HTMLDivElement) {
+  const addPanoramaBtm = createButton("Add Panorama", svgAddPanorama);
+  const addInfoBtm = createButton("Add Info", svgAddInfo);
+  const copyOrientationBtm = createButton("Copy Orientation URL Params", svgCopyOrientation);
 
-  addPanoramaBtm.insertAdjacentHTML("beforeend", svgAddPanorama);
-  addInfoBtm.insertAdjacentHTML("beforeend", svgAddInfo);
-  copyOrientationBtm.insertAdjacentHTML("beforeend", svgCopyOrientation);
-
+  const menu = document.createElement("div");
+  menu.classList.add("edit-mode-actinos", "hidden");
+  menu.append(addPanoramaBtm);
+  menu.append(addInfoBtm);
+  menu.append(copyOrientationBtm);
+  uiLayer.append(menu);
+  
   const addHotspot = (type: PannellumHotSpotType) => {
     setTimeout(() => {
       hotspot.show({ type });
@@ -59,4 +59,12 @@ function create(store: Store, hotspot: Hotspot) {
   store.on("setIsEditMode", toggle);
 
   return { show, hide };
+}
+
+function createButton(tooltip: string, svg: string) {
+  const button = document.createElement("button");
+  button.classList.add("button");
+  button.dataset.tooltip = tooltip;
+  button.insertAdjacentHTML("beforeend", svg);
+  return button;
 }

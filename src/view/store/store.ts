@@ -3,6 +3,7 @@ import { defaultState, State } from "../../core/state";
 import { getElementById } from "../utils/document";
 import { createEventEmitter } from "../utils/event-emitter";
 import { parseYaw, parsePitch, parseHfov } from "../url/url";
+import { UI_LAYER_ID } from "../ui-layer/ui-layer";
 
 export type Store = ReturnType<typeof create>;
 
@@ -71,8 +72,8 @@ function create() {
     stateElement.textContent = JSON.stringify(state);
 
     const docClone = document.documentElement.cloneNode(true) as HTMLElement;
-    docClone.querySelector("#panorama")!.innerHTML = "";
     docClone.querySelector("#loader")!.removeAttribute("style");
+    docClone.querySelector(`#${UI_LAYER_ID}`)?.remove();
     const fullHtml = "<!doctype html>\n" + docClone.outerHTML;
     const blob = new Blob([fullHtml], { type: "text/html" });
     const link = document.createElement("a");

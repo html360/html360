@@ -1,0 +1,10 @@
+#ui-layer {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-index-1);
+  pointer-events: none; 
+}
+
+#ui-layer * {
+  pointer-events: auto; 
+}

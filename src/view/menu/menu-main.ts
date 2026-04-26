@@ -1,5 +1,5 @@
 import { Store } from "../store/store";
-import { getElementById, getPanoramaElement } from "../utils/document";
+import { ViewerAdapter } from "../viewer/viewer-adapter";
 
 export type MainMenu = ReturnType<typeof create>;
 
@@ -7,13 +7,28 @@ export const MainMenu = {
   create,
 };
 
-function create(store: Store) {
-  const menu = getElementById("main-menu");
-  const saveBtm = getElementById("main-menu-save");
-  const fullScreenBtn = getElementById("main-menu-fullscreen");
-  const editModeBtn = getElementById("main-menu-edit-mode");
-  const uiLayer = getElementById("ui-layer");
-  const panorama = getPanoramaElement();
+function create(store: Store, viwer: ViewerAdapter, uiLayer: HTMLDivElement) {
+  const saveBtm = createButton("Save View");
+  const fullScreenBtn = createButton("Fullscreen");
+  const editModeBtn = createButton("Switch to Editor");
+
+  const menu = document.createElement("div");
+  menu.classList.add("menu", "hidden");
+  menu.append(fullScreenBtn);
+  menu.append(saveBtm);
+  menu.append(editModeBtn);
+  menu.insertAdjacentHTML(
+    "beforeend",
+    `
+      <div class="menu-footer">
+        <a href="https://www.npmjs.com/package/html360" target="_blank" class="menu-footer-link">html360</a>
+        <a href="https://pannellum.org/" target="_blank" class="menu-footer-link">pannellum</a>
+        <a href="https://hugin.sourceforge.io/" target="_blank" class="menu-footer-link">hugin</a>
+        <a href="https://sharp.pixelplumbing.com/" target="_blank" class="menu-footer-link">sharp</a>
+      </div>
+    `,
+  );
+  uiLayer.append(menu);
 
   const onSaveClick = () => {
     hide();
@@ -71,10 +86,17 @@ function create(store: Store) {
     }
   };
 
-  panorama.addEventListener("contextmenu", (e) => {
+  viwer.panoramaElm.addEventListener("contextmenu", (e) => {
     e.preventDefault();
     toggle();
   });
 
   return { show, hide, toggle };
+}
+
+function createButton(text: string) {
+  const button = document.createElement("button");
+  button.classList.add("button");
+  button.append(text);
+  return button;
 }

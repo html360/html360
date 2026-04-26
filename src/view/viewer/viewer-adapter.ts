@@ -4,7 +4,7 @@ import pannellum, {
   PannellumHotSpot,
 } from "../../core/pannellum/pannellum";
 import { Store } from "../store/store";
-import { getElementById, getPanoramaElement } from "../utils/document";
+import { getElementById } from "../utils/document";
 import { createEventEmitter } from "../utils/event-emitter";
 import { navigateTo } from "../utils/window";
 
@@ -18,7 +18,11 @@ type ViewerAdapterEvents = {
   hotspotClick: (id: string) => void;
 };
 
-async function create(store: Store) {
+async function create(store: Store, uiLayer: HTMLDivElement) {
+  const panoramaElm = document.createElement("div");
+  panoramaElm.classList.add("panorama");
+  uiLayer.appendChild(panoramaElm)
+
   const viewer = store.state.isMultires
     ? await createMultiresViewer()
     : await createHtmlViewer();
@@ -36,7 +40,7 @@ async function create(store: Store) {
       panorama: objectURL,
     });
 
-    const viewer = pannellum.viewer(getPanoramaElement(), config);
+    const viewer = pannellum.viewer(panoramaElm, config);
 
     viewer.on("load", () => {
       URL.revokeObjectURL(objectURL);
@@ -61,7 +65,7 @@ async function create(store: Store) {
 
     getElementById("loader").style.display = "none";
 
-    return pannellum.viewer(getPanoramaElement(), config);
+    return pannellum.viewer(panoramaElm, config);
   }
 
   function buildConfig(initConfig: PannellumConfig): PannellumConfig {
@@ -169,5 +173,5 @@ async function create(store: Store) {
     });
   };
 
-  return { viewer, on, off, addHotspot, removeHotspot, lookAt };
+  return { panoramaElm, viewer, on, off, addHotspot, removeHotspot, lookAt };
 }

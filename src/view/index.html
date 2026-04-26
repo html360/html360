@@ -9,67 +9,6 @@
   </head>
   <body>
     <div id="loader"></div>
-    <div id="ui-layer">
-      <div id="panorama"></div>
-      <div id="main-menu" class="menu hidden">
-        <button id="main-menu-fullscreen" class="button">Fullscreen</button>
-        <button id="main-menu-save" class="button">Save View</button>
-        <button id="main-menu-edit-mode" class="button">Switch to Editor</button>
-        <div class="menu-footer">
-          <a href="https://www.npmjs.com/package/html360" target="_blank" class="menu-footer-link">html360</a>
-          <a href="https://pannellum.org/" target="_blank" class="menu-footer-link">pannellum</a>
-          <a href="https://hugin.sourceforge.io/" target="_blank" class="menu-footer-link">hugin</a>
-          <a href="https://sharp.pixelplumbing.com/" target="_blank" class="menu-footer-link">sharp</a>
-        </div>
-      </div>
-      <div id="edit-mode-actinos" class="edit-mode-actinos hidden">
-        <button id="edit-mode-actinos-add-panorama" class=" button" data-tooltip="Add Panorama"></button>
-        <button id="edit-mode-actinos-add-info" class=" button" data-tooltip="Add Info"></button>
-        <button id="edit-mode-actinos-copy-orientation" class=" button" data-tooltip="Copy Orientation URL Params"></button>
-      </div>
-      <div id="hotspot" class="hidden">
-        <div class="hotspot-modal">          
-          <div id="hotspot-header">
-            Points of Interest
-          </div>
-          <div class="hotspot-content">
-            <div class="hotspot-field">
-              <label for="hotspot-text" class="label">Text</label>
-              <input id="hotspot-text" type="text" class="input" placeholder="Enter name...">
-            </div>            
-            <div class="hotspot-field">
-              <label class="label" for="hotspot-url">URL</label>
-              <div class="hotspot-url">
-                <input 
-                  type="text" 
-                  class="input" 
-                  id="hotspot-url" 
-                  list="hotspot-urls" 
-                  placeholder="Type or select a url..."
-                  autocomplete="off"
-                >
-                <datalist id="hotspot-urls">
-                </datalist>
-                <button id="hotspot-open-url" class="button hotspot-open-url-btn"></button>
-              </div>
-              <label class="checkbox">
-                <input type="checkbox" id="hotspot-open-new-tab">
-                <span class="checkmark"></span>
-                Open in new tab
-              </label>
-            </div>
-          </div>
-          <div class="hotspot-footer">
-            <div class="hotspot-footer-buttons">
-              <button id="hotspot-save" class="button">Save</button>
-              <button id="hotspot-close" class="button secondary">Close</button>
-            </div>
-            <button id="hotspot-delete" class="button danger">Delete</button>
-          </div>
-        </div>
-      </div>
-      <div id="crosshair" class="hidden"></div>
-    </div>
     <script id="panorama-data" type="text/plain">{{PANORAMA_DATA}}</script>
     <script id="state" type="application/json">{{STATE}}</script>
     <script>{{JS}}</script>

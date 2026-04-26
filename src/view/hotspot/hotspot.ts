@@ -3,10 +3,9 @@ import {
   PannellumHotSpotType,
 } from "../../core/pannellum/pannellum";
 import { CanBeNull, CanBeUndefined } from "../../core/types";
-import { type LockOverlay } from "../lock-overlay/lock-overlay";
 import { isOrientationMessage } from "../orientation-messager/orientation-messager";
 import { Store } from "../store/store";
-import { getElementById, getPanoramaElement } from "../utils/document";
+import { getElementById } from "../utils/document";
 import { SimpleUrl } from "../url/url";
 import { generateId } from "../utils/utils";
 import { type ViewerAdapter } from "../viewer/viewer-adapter";
@@ -18,12 +17,61 @@ export const Hotspot = {
   create,
 };
 
-function create(store: Store, viewer: ViewerAdapter) {
+function create(store: Store, viewer: ViewerAdapter, uiLayer: HTMLDivElement) {
   let type: CanBeUndefined<PannellumHotSpotType>;
   let hotspot: CanBeUndefined<PannellumHotSpot>;
   let popupWindow: CanBeNull<Window> = null;
+
+  uiLayer.insertAdjacentHTML(
+    "beforeend",
+    `
+      <div id="hotspot" class="hidden">
+        <div class="hotspot-modal">          
+          <div id="hotspot-header">
+            Points of Interest
+          </div>
+          <div class="hotspot-content">
+            <div class="hotspot-field">
+              <label for="hotspot-text" class="label">Text</label>
+              <input id="hotspot-text" type="text" class="input" placeholder="Enter name...">
+            </div>            
+            <div class="hotspot-field">
+              <label class="label" for="hotspot-url">URL</label>
+              <div class="hotspot-url">
+                <input 
+                  type="text" 
+                  class="input" 
+                  id="hotspot-url" 
+                  list="hotspot-urls" 
+                  placeholder="Type or select a url..."
+                  autocomplete="off"
+                >
+                <datalist id="hotspot-urls">
+                </datalist>
+                <button id="hotspot-open-url" class="button hotspot-open-url-btn"></button>
+              </div>
+              <label class="checkbox">
+                <input type="checkbox" id="hotspot-open-new-tab">
+                <span class="checkmark"></span>
+                Open in new tab
+              </label>
+            </div>
+          </div>
+          <div class="hotspot-footer">
+            <div class="hotspot-footer-buttons">
+              <button id="hotspot-save" class="button">Save</button>
+              <button id="hotspot-close" class="button secondary">Close</button>
+            </div>
+            <button id="hotspot-delete" class="button danger">Delete</button>
+          </div>
+        </div>
+      </div>
+    `,
+  );
+
   const hotspotElm = getElementById("hotspot");
   const hotspotHeader = getElementById<HTMLDivElement>("hotspot-header");
+
   const textElm = getElementById<HTMLInputElement>("hotspot-text");
   const urlElm = getElementById<HTMLInputElement>("hotspot-url");
   const urlsElm = getElementById<HTMLDataListElement>("hotspot-urls");
@@ -34,7 +82,6 @@ function create(store: Store, viewer: ViewerAdapter) {
   const saveBtn = getElementById("hotspot-save");
   const closeBtn = getElementById("hotspot-close");
   const deleteBtn = getElementById("hotspot-delete");
-  const panoramaElm = getPanoramaElement();
 
   openUrlBtn.insertAdjacentHTML("beforeend", svgCopyOrientation);
 
@@ -158,7 +205,7 @@ function create(store: Store, viewer: ViewerAdapter) {
     openInNewTabElm.classList.toggle("hidden", type === "scene");
 
     document.addEventListener("click", onClickOutside);
-    panoramaElm.addEventListener("contextmenu", onContextMenu);
+    viewer.panoramaElm.addEventListener("contextmenu", onContextMenu);
     openUrlBtn.addEventListener("click", onOpenUrl);
     saveBtn.addEventListener("click", onSaveClick);
     closeBtn.addEventListener("click", onCloseClick);
@@ -173,7 +220,7 @@ function create(store: Store, viewer: ViewerAdapter) {
     popupWindow?.close();
 
     document.removeEventListener("click", onClickOutside);
-    panoramaElm.removeEventListener("contextmenu", onContextMenu);
+    viewer.panoramaElm.removeEventListener("contextmenu", onContextMenu);
     openUrlBtn.removeEventListener("click", onOpenUrl);
     saveBtn.removeEventListener("click", onSaveClick);
     closeBtn.removeEventListener("click", onCloseClick);

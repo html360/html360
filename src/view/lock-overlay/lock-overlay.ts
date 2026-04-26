@@ -1,13 +1,10 @@
-import { Store } from "../store/store";
-import { getUiLayerElement } from "../utils/document";
-
 export type LockOverlay = ReturnType<typeof create>;
 
 export const LockOverlay = {
   create,
 };
 
-function create() {
+function create(uiLayer: HTMLDivElement) {
   const hint = document.createElement("div");
   hint.innerText = "Please complete your action in the popup window...";
   hint.classList.add("lock-overlay-hint");
@@ -29,7 +26,7 @@ function create() {
     self.classList.add("hidden");
   };
 
-  getUiLayerElement().appendChild(self);
+  uiLayer.appendChild(self);
 
   return {
     show,
