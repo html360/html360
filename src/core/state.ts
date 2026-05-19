@@ -7,6 +7,7 @@ export type State = {
   hfov: number;
   hotspots: PannellumHotSpot[];
   tourCandidatesUrls: string[];
+  isReadOnly: boolean;
   isEditMode: boolean;
   isMultires: boolean;
   author?: string;
@@ -21,6 +22,7 @@ export const defaultState: State = {
   hfov: 100,
   hotspots: [],
   tourCandidatesUrls: [],
+  isReadOnly: false,
   isEditMode: false,
   isMultires: false,
   version: "0.0.0",

@@ -8,22 +8,26 @@ export const MainMenu = {
 };
 
 function create(store: Store, viwer: ViewerAdapter, uiLayer: HTMLDivElement) {
-  const saveBtm = createButton("Save View");
   const fullScreenBtn = createButton("Fullscreen");
   const editModeBtn = createButton("Switch to Editor");
+  const saveAsReadOnlyBtm = createButton("Save as Read-Only");
+  const saveBtm = createButton("Save");
 
   const menu = document.createElement("div");
   menu.classList.add("menu", "hidden");
   menu.append(fullScreenBtn);
-  menu.append(saveBtm);
-  menu.append(editModeBtn);
+  if (!store.state.isReadOnly) {
+    menu.append(editModeBtn);
+    menu.append(saveAsReadOnlyBtm);
+    menu.append(saveBtm);
+  }
   menu.insertAdjacentHTML(
     "beforeend",
     `
       <div class="menu-footer">
-        <a href="https://www.npmjs.com/package/html360" target="_blank" class="menu-footer-link">html360</a>
-        <a href="https://pannellum.org/" target="_blank" class="menu-footer-link">pannellum</a>
-        <a href="https://hugin.sourceforge.io/" target="_blank" class="menu-footer-link">hugin</a>
+        <a href="https://www.npmjs.com/package/html360" target="_blank" class="menu-footer-link">html360</a>•
+        <a href="https://pannellum.org/" target="_blank" class="menu-footer-link">pannellum</a>•
+        <a href="https://hugin.sourceforge.io/" target="_blank" class="menu-footer-link">hugin</a>•
         <a href="https://sharp.pixelplumbing.com/" target="_blank" class="menu-footer-link">sharp</a>
       </div>
     `,
@@ -33,6 +37,11 @@ function create(store: Store, viwer: ViewerAdapter, uiLayer: HTMLDivElement) {
   const onSaveClick = () => {
     hide();
     store.save();
+  };
+
+  const onSaveAsReadOnlyClick = () => {
+    hide();
+    store.save(true);
   };
 
   const onFullScreenClick = () => {
@@ -65,6 +74,7 @@ function create(store: Store, viwer: ViewerAdapter, uiLayer: HTMLDivElement) {
 
     document.addEventListener("click", onClickOutside);
     saveBtm.addEventListener("click", onSaveClick);
+    saveAsReadOnlyBtm.addEventListener("click", onSaveAsReadOnlyClick);
     fullScreenBtn.addEventListener("click", onFullScreenClick);
     editModeBtn.addEventListener("click", onEditModeClick);
     menu.classList.remove("hidden");
@@ -73,6 +83,7 @@ function create(store: Store, viwer: ViewerAdapter, uiLayer: HTMLDivElement) {
   const hide = () => {
     document.removeEventListener("click", onClickOutside);
     saveBtm.removeEventListener("click", onSaveClick);
+    saveAsReadOnlyBtm.removeEventListener("click", onSaveAsReadOnlyClick);
     fullScreenBtn.removeEventListener("click", onFullScreenClick);
     editModeBtn.removeEventListener("click", onEditModeClick);
     menu.classList.add("hidden");

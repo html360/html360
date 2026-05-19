@@ -49,7 +49,7 @@ async function processImage(imgPath: string, ctx: HtmlContext) {
   try {
     const writeStream = fileHandle.createWriteStream();
 
-    await writeAsync(writeStream, htmlChunks.first);
+    await writeFirst(writeStream, imgPath, ctx);
     await writeImage(writeStream, imgPath, options);
     await writeAsync(writeStream, htmlChunks.beforeState);
     await writeState(writeStream, imgPath, ctx);
@@ -63,6 +63,16 @@ async function processImage(imgPath: string, ctx: HtmlContext) {
     await silent(() => fsPromises.unlink(htmlPath));
     throw error;
   }
+}
+
+async function writeFirst(
+  writeStream: fs.WriteStream,
+  imgPath: string,
+  ctx: HtmlContext,
+) {
+  const title = path.parse(imgPath).name;
+  const first = ctx.htmlChunks.first.replace("{{TITLE}}", title);
+  await writeAsync(writeStream, first);
 }
 
 async function writeImage(
@@ -104,6 +114,7 @@ async function writeState(
     hfov: defaultState.hfov,
     hotspots: defaultState.hotspots,
     tourCandidatesUrls: getToursCandidatesUrls(imgPath, ctx),
+    isReadOnly: defaultState.isReadOnly,
     isEditMode: defaultState.isEditMode,
     isMultires: false,
     version: pkg.version,

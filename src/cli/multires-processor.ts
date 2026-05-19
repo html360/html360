@@ -44,6 +44,7 @@ function processImage(imgPath: string, ctx: MultiresContext) {
   }
 
   let html = ctx.templateHtml
+    .replace("{{TITLE}}", path.parse(imgPath).name)
     .replace(
       "{{PANORAMA_DATA}}",
       "<!-- In multiresolution mode {{PANORAMA_DATA}} is empty -->",
@@ -109,6 +110,7 @@ function getStateJSON(imgPath: string, ctx: MultiresContext) {
     hfov: defaultState.hfov,
     hotspots: defaultState.hotspots,
     tourCandidatesUrls: getToursCandidatesUrls(imgPath, ctx),
+    isReadOnly: defaultState.isReadOnly,
     isEditMode: defaultState.isEditMode,
     isMultires: true,
     version: pkg.version,

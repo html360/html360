@@ -11,13 +11,13 @@
     "webp",
     "base64"
   ],
-  "homepage": "https://github.com/d-hand/html360#readme",
+  "homepage": "https://github.com/html360/html360",
   "bugs": {
-    "url": "https://github.com/d-hand/html360/issues"
+    "url": "https://github.com/html360/html360/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/d-hand/html360.git"
+    "url": "git+https://github.com/html360/html360.git"
   },
   "license": "MIT",
   "author": "d_hand",

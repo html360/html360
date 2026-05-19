@@ -67,9 +67,10 @@ function create() {
     return `?${result.toString()}`;
   };
 
-  const save = () => {
+  const save = (isReadOnly = false) => {
     setIsEditMode(false);
-    stateElement.textContent = JSON.stringify(state);
+    const newState = { ...state, isReadOnly };
+    stateElement.textContent = JSON.stringify(newState);
 
     const docClone = document.documentElement.cloneNode(true) as HTMLElement;
     docClone.querySelector("#loader")!.removeAttribute("style");
@@ -78,7 +79,7 @@ function create() {
     const blob = new Blob([fullHtml], { type: "text/html" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = state.name;
+    link.download = newState.name;
     link.click();
   };
 
@@ -112,4 +113,3 @@ const getState = (stateElement: HTMLElement): State => {
     return defaultState;
   }
 };
-

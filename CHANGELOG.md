@@ -2,6 +2,13 @@
 
 <!-- ####################################################################################################### -->
 
+## 2.9.0 (2026-05-26)
+### ✨ Features
+- Read-Only Mode
+- Automatically set the source image file name as the HTML `<title>` for the generated panorama page.
+
+<!-- ####################################################################################################### -->
+
 ## 2.8.1 (2026-04-26)
 ### Fixed
 - **Button Duplication:** Resolved an issue where control buttons were duplicated after saving the page or re-initializing the viewer.
