@@ -10,8 +10,9 @@ export type State = {
   isReadOnly: boolean;
   isEditMode: boolean;
   isMultires: boolean;
-  author?: string;
-  authorURL?: string;
+  title: string;
+  author: string;
+  authorURL: string;
   version: string;
 };
 
@@ -25,5 +26,8 @@ export const defaultState: State = {
   isReadOnly: false,
   isEditMode: false,
   isMultires: false,
+  title: "",
+  author: "",
+  authorURL: "",
   version: "0.0.0",
 };

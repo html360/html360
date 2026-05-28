@@ -104,14 +104,9 @@ function getStateJSON(imgPath: string, ctx: MultiresContext) {
   const output = getOutputInfo(imgPath);
 
   const state: State = {
+    ...defaultState,
     name: output.name,
-    yaw: defaultState.yaw,
-    pitch: defaultState.pitch,
-    hfov: defaultState.hfov,
-    hotspots: defaultState.hotspots,
     tourCandidatesUrls: getToursCandidatesUrls(imgPath, ctx),
-    isReadOnly: defaultState.isReadOnly,
-    isEditMode: defaultState.isEditMode,
     isMultires: true,
     version: pkg.version,
   };

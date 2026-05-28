@@ -18,6 +18,7 @@ export type PannellumConfig = {
   autoLoad?: boolean;
   showControls?: boolean;
   basePath?: string;
+  title?: string;
   author?: string;
   authorURL?: string;  
 };

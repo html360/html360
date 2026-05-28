@@ -7,7 +7,7 @@ export const MainMenu = {
   create,
 };
 
-function create(store: Store, viwer: ViewerAdapter, uiLayer: HTMLDivElement) {
+function create(store: Store, uiLayer: HTMLDivElement, viwer: ViewerAdapter) {
   const fullScreenBtn = createButton("Fullscreen");
   const editModeBtn = createButton("Switch to Editor");
   const saveAsReadOnlyBtm = createButton("Save as Read-Only");

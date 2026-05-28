@@ -30,3 +30,9 @@ button, input, select, textarea {
 .hidden {
   visibility: hidden;
 }
+
+.field-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

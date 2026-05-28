@@ -108,14 +108,9 @@ async function writeState(
   ctx: HtmlContext,
 ) {
   const state: State = {
+    ...defaultState,
     name: getHtmlName(imgPath, ctx.options),
-    yaw: defaultState.yaw,
-    pitch: defaultState.pitch,
-    hfov: defaultState.hfov,
-    hotspots: defaultState.hotspots,
     tourCandidatesUrls: getToursCandidatesUrls(imgPath, ctx),
-    isReadOnly: defaultState.isReadOnly,
-    isEditMode: defaultState.isEditMode,
     isMultires: false,
     version: pkg.version,
   };

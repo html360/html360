@@ -1,8 +1,8 @@
 # TODO
-- Автоматизировать создание релиза 
-
+- StackAid
+- видео 360 ?)
 - Своя favicon 
-- Возможность настроить автора и url-автора
+- Автоматизировать создание релиза 
 - Тесты
 - WebXR/VR Mode: Кнопка для перехода в режим виртуальной реальности (для Google Cardboard или Oculus).
 - Выводи информации сколько весит js и css который добавляется в html
@@ -11,7 +11,6 @@
 - html360. WebServer для раболты с multires
 - Тулза для просмотра панорам в указаной папке?) Для multires нужен локальный web-сервер + Это может быть просто удобно... 
 - html360-gen. UnicodeEncodeError: 'charmap' codec can't encode character '\xed' in position 153: character maps to <undefined>
-
 
 ## ??? 
 - Научиться рисовать на панораме %)
@@ -26,14 +25,14 @@
 
 
 ## Publish
-1.  **Собрать пакет** `npm run build` 
+1.  **Собрать пакет** `npm run build:prod` 
 3.  Запаковать 'npm pack`
 4.  Удалить артефакты разработки `html360 uninstall-menu` `npm unlink` `npm uninstall -g html360`    
 5.  Установить глобально из архива `npm install -g ./html360-x.x.x.tgz`
 6.  **Проверить все команды html360**
 7.  **Проверить CHANGELOG** Обратить вниание на дату релиза
 8.  Создать коммит в мастер: `feat: release x.x.x`, `Update README.md`, ...
-9.  **Создать коммит выпуска новой версии** `npm version x.x.x && npm run build && git push origin --follow-tags`
+9.  **Создать коммит выпуска новой версии** `npm version x.x.x && npm run build:prod && git push origin --follow-tags`
 10. **Последний раз все проверить**
 11. Создать релиз на github (опционально)
 12. Логин `npm login`

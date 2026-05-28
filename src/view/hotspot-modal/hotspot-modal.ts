@@ -10,66 +10,64 @@ import { SimpleUrl } from "../url/url";
 import { generateId } from "../utils/utils";
 import { type ViewerAdapter } from "../viewer/viewer-adapter";
 import { svgCopyOrientation } from "../svg/svg";
+import { Modal } from "../modal/modal";
 
-export type Hotspot = ReturnType<typeof create>;
+export type HotspotModal = ReturnType<typeof create>;
 
-export const Hotspot = {
+export const HotspotModal = {
   create,
 };
 
-function create(store: Store, viewer: ViewerAdapter, uiLayer: HTMLDivElement) {
+function create(store: Store, uiLayer: HTMLDivElement, viewer: ViewerAdapter) {
   let type: CanBeUndefined<PannellumHotSpotType>;
   let hotspot: CanBeUndefined<PannellumHotSpot>;
   let popupWindow: CanBeNull<Window> = null;
 
-  uiLayer.insertAdjacentHTML(
-    "beforeend",
-    `
-      <div id="hotspot" class="hidden">
-        <div class="hotspot-modal">          
-          <div id="hotspot-header">
-            Points of Interest
-          </div>
-          <div class="hotspot-content">
-            <div class="hotspot-field">
-              <label for="hotspot-text" class="label">Text</label>
-              <input id="hotspot-text" type="text" class="input" placeholder="Enter name...">
-            </div>            
-            <div class="hotspot-field">
-              <label class="label" for="hotspot-url">URL</label>
-              <div class="hotspot-url">
-                <input 
-                  type="text" 
-                  class="input" 
-                  id="hotspot-url" 
-                  list="hotspot-urls" 
-                  placeholder="Type or select a url..."
-                  autocomplete="off"
-                >
-                <datalist id="hotspot-urls">
-                </datalist>
-                <button id="hotspot-open-url" class="button hotspot-open-url-btn"></button>
-              </div>
-              <label class="checkbox">
-                <input type="checkbox" id="hotspot-open-new-tab">
-                <span class="checkmark"></span>
-                Open in new tab
-              </label>
-            </div>
-          </div>
-          <div class="hotspot-footer">
-            <div class="hotspot-footer-buttons">
-              <button id="hotspot-save" class="button">Save</button>
-              <button id="hotspot-close" class="button secondary">Close</button>
-            </div>
-            <button id="hotspot-delete" class="button danger">Delete</button>
-          </div>
-        </div>
+  const modal = Modal.create({
+    id: "hotspot-modal",
+    header: `
+      <div id="hotspot-header">
+        Points of Interest
       </div>
     `,
-  );
+    content: `
+      <div class="field-box">
+        <label for="hotspot-text" class="label">Text</label>
+        <input id="hotspot-text" type="text" class="input" placeholder="Enter name...">
+      </div>            
+      <div class="field-box">
+        <label class="label" for="hotspot-url">URL</label>
+        <div class="hotspot-url">
+          <input 
+            type="text" 
+            class="input" 
+            id="hotspot-url" 
+            list="hotspot-urls" 
+            placeholder="Type or select a url..."
+            autocomplete="off"
+          >
+          <datalist id="hotspot-urls"></datalist>
+          <button id="hotspot-open-url" class="button hotspot-open-url-btn"></button>
+        </div>
+        <label class="checkbox">
+          <input type="checkbox" id="hotspot-open-new-tab">
+          <span class="checkmark"></span>
+          Open in new tab
+        </label>
+      </div>
+    `,
+    footer: `
+      <div class="modal-footer-buttons-space-between">
+        <div class="modal-footer-buttons">
+          <button id="hotspot-save" class="button">Save</button>
+          <button id="hotspot-close" class="button secondary">Close</button>
+        </div>
+        <button id="hotspot-delete" class="button danger">Delete</button>
+      </div>
+    `,
+    uiLayer,
+  });
 
-  const hotspotElm = getElementById("hotspot");
   const hotspotHeader = getElementById<HTMLDivElement>("hotspot-header");
 
   const textElm = getElementById<HTMLInputElement>("hotspot-text");
@@ -123,16 +121,6 @@ function create(store: Store, viewer: ViewerAdapter, uiLayer: HTMLDivElement) {
     hide();
   };
 
-  const onClickOutside = (e: MouseEvent) => {
-    const target = e.target as Node;
-    if (
-      !hotspotElm.classList.contains("hidden") &&
-      !hotspotElm.contains(target)
-    ) {
-      hide();
-    }
-  };
-
   const onOpenUrl = () => {
     const url = urlElm.value.trim();
 
@@ -176,8 +164,8 @@ function create(store: Store, viewer: ViewerAdapter, uiLayer: HTMLDivElement) {
       throw new Error("Argument 'type' is required.");
     }
 
-    if (!hotspotElm.classList.contains("hidden")) {
-      hide();
+    if (modal.isVisible()) {
+      modal.hide();
     }
 
     if (hotspot) {
@@ -204,7 +192,6 @@ function create(store: Store, viewer: ViewerAdapter, uiLayer: HTMLDivElement) {
 
     openInNewTabElm.classList.toggle("hidden", type === "scene");
 
-    document.addEventListener("click", onClickOutside);
     viewer.panoramaElm.addEventListener("contextmenu", onContextMenu);
     openUrlBtn.addEventListener("click", onOpenUrl);
     saveBtn.addEventListener("click", onSaveClick);
@@ -212,14 +199,13 @@ function create(store: Store, viewer: ViewerAdapter, uiLayer: HTMLDivElement) {
     deleteBtn.addEventListener("click", onDelete);
     window.addEventListener("message", onMessage);
 
-    hotspotElm.classList.remove("hidden");
+    modal.show();
   };
 
   const hide = () => {
     hotspot = undefined;
     popupWindow?.close();
 
-    document.removeEventListener("click", onClickOutside);
     viewer.panoramaElm.removeEventListener("contextmenu", onContextMenu);
     openUrlBtn.removeEventListener("click", onOpenUrl);
     saveBtn.removeEventListener("click", onSaveClick);
@@ -227,7 +213,7 @@ function create(store: Store, viewer: ViewerAdapter, uiLayer: HTMLDivElement) {
     deleteBtn.removeEventListener("click", onDelete);
     window.removeEventListener("message", onMessage);
 
-    hotspotElm.classList.add("hidden");
+    modal.hide();
   };
 
   viewer.on("hotspotClick", (id) => show({ id }));

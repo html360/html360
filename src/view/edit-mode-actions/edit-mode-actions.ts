@@ -1,7 +1,13 @@
 import { PannellumHotSpotType } from "../../core/pannellum/pannellum";
-import { Hotspot } from "../hotspot/hotspot";
+import { HotspotModal } from "../hotspot-modal/hotspot-modal";
+import { PanoInfoModal } from "../pano-info-modal/pano-info-modal";
 import { Store } from "../store/store";
-import { svgAddInfo, svgAddPanorama, svgCopyOrientation } from "../svg/svg";
+import {
+  svgAddInfo,
+  svgAddPanorama,
+  svgCopyOrientation,
+  svgPanoInfo,
+} from "../svg/svg";
 import { showToast } from "../toast/toast";
 import { copyTextToClipboard } from "../utils/document";
 
@@ -11,18 +17,28 @@ export const EditModeActions = {
   create,
 };
 
-function create(store: Store, hotspot: Hotspot, uiLayer: HTMLDivElement) {
+function create(
+  store: Store,
+  uiLayer: HTMLDivElement,
+  panoInfo: PanoInfoModal,
+  hotspot: HotspotModal,
+) {
+  const editPanoInfoBtm = createButton("Edit Details", svgPanoInfo);
   const addPanoramaBtm = createButton("Add Panorama", svgAddPanorama);
   const addInfoBtm = createButton("Add Info", svgAddInfo);
-  const copyOrientationBtm = createButton("Copy Orientation URL Params", svgCopyOrientation);
+  const copyOrientationBtm = createButton(
+    "Copy Orientation URL Params",
+    svgCopyOrientation,
+  );
 
   const menu = document.createElement("div");
   menu.classList.add("edit-mode-actinos", "hidden");
+  menu.append(editPanoInfoBtm);
   menu.append(addPanoramaBtm);
   menu.append(addInfoBtm);
   menu.append(copyOrientationBtm);
   uiLayer.append(menu);
-  
+
   const addHotspot = (type: PannellumHotSpotType) => {
     setTimeout(() => {
       hotspot.show({ type });
@@ -40,7 +56,14 @@ function create(store: Store, hotspot: Hotspot, uiLayer: HTMLDivElement) {
     showToast(toastText);
   };
 
+  const onEditPanoInfo = () => {
+    setTimeout(() => {
+      panoInfo.show();
+    }, 0);
+  };
+
   const show = () => {
+    editPanoInfoBtm.addEventListener("click", onEditPanoInfo);
     addPanoramaBtm.addEventListener("click", onAddPanorama);
     addInfoBtm.addEventListener("click", onAddInfo);
     copyOrientationBtm.addEventListener("click", onCopyOrientation);
@@ -48,6 +71,7 @@ function create(store: Store, hotspot: Hotspot, uiLayer: HTMLDivElement) {
   };
 
   const hide = () => {
+    editPanoInfoBtm.removeEventListener("click", onEditPanoInfo);
     addPanoramaBtm.removeEventListener("click", onAddPanorama);
     addInfoBtm.removeEventListener("click", onAddInfo);
     copyOrientationBtm.removeEventListener("click", onCopyOrientation);

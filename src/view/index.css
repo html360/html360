@@ -7,13 +7,15 @@
 @import "./styles/checkbox.css";
 @import "./styles/loader.css";
 @import "./ui-layer/ui-layer.css";
+@import "./modal/modal.css";
 @import "./viewer/viewer-adapter.css";
 @import "./toast/toast.css";
 @import "./crosshair/crosshair.css";
 @import "./lock-overlay/lock-overlay.css";
 @import "./menu/menu.css";
 @import "./edit-mode-actions/edit-mode-actions.css";
-@import "./hotspot/hotspot.css";
+@import "./hotspot-modal/hotspot-modal.css";
+@import "./pano-info/pano-info.css";
 
 .pnlm-about-msg {
   display: none !important;

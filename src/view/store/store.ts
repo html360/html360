@@ -12,12 +12,15 @@ export const Store = {
 };
 
 type StoreEvents = {
-  setYaw: (yaw: number) => void;
-  setPitch: (pitch: number) => void;
-  setHfov: (hfov: number) => void;
+  setYaw: (value: number) => void;
+  setPitch: (value: number) => void;
+  setHfov: (value: number) => void;
   addHotspot: (hotspot: PannellumHotSpot) => void;
   removeHotspot: (id: string) => void;
-  setIsEditMode: (isEditMode: boolean) => void;
+  setIsEditMode: (value: boolean) => void;
+  setTitle: (value: string) => void;
+  setAuthor: (value: string) => void
+  setAuthorUrl: (value: string) => void
 };
 
 function create() {
@@ -58,6 +61,20 @@ function create() {
     event.emit("setIsEditMode", value);
   };
 
+  const setTitle = (value: string) => {
+    state.title = value.trim();
+    event.emit("setTitle", state.title);
+  };
+
+  const setAuthor = (value: string) => {
+    state.author = value.trim();
+    event.emit("setAuthor", state.author);
+  };
+  const setAuthorUrl = (value: string) => {
+    state.authorURL = value.trim();
+    event.emit("setAuthorUrl", state.authorURL);
+  };
+
   const getOrientationUrlParams = () => {
     const result = new URLSearchParams({
       yaw: state.yaw.toFixed(2),
@@ -90,9 +107,12 @@ function create() {
     setYaw,
     setPitch,
     setHfov,
+    setIsEditMode,
+    setTitle,
+    setAuthor,
+    setAuthorUrl,
     addHotspot,
     removeHotspot,
-    setIsEditMode,
     getOrientationUrlParams,
     on,
     off,

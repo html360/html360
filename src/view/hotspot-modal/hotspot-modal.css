@@ -1,0 +1,9 @@
+.hotspot-url {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.hotspot-open-url-btn {
+  padding: 9px
+}

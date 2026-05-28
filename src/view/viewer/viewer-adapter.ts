@@ -83,10 +83,6 @@ async function create(store: Store, uiLayer: HTMLDivElement) {
         clickHandlerFunc: (e, args) => onHotspotClick(e, x.id, args),
       }));
 
-    if (store.state.author) config.author = store.state.author;
-
-    if (store.state.authorURL) config.authorURL = store.state.authorURL;
-
     return config;
   }
 

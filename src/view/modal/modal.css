@@ -1,4 +1,4 @@
-#hotspot {
+.modal-overlay {
   position: fixed;
   inset: 0;
   z-index: var(--z-index-2);
@@ -11,7 +11,7 @@
   align-items: center;
 }
 
-.hotspot-modal {
+.modal {
   width: 100%;
   height: 100%;
 
@@ -24,7 +24,7 @@
   border: var(--panel-border);
 }
 
-#hotspot-header {
+.modal-header {
   flex: 0 0 auto;
   margin-bottom: var(--panel-delimiter-margin);
   padding-bottom: var(--panel-delimiter-padding);
@@ -35,48 +35,34 @@
   margin-bottom: 4px;
 }
 
-.hotspot-content {
+.modal-content {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-.hotspot-footer {
+.modal-footer {
   flex: 0 0 auto;
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-
   margin-top: var(--panel-delimiter-margin);
   padding-top: var(--panel-delimiter-padding);
   border-top: var(--panel-border);
 }
 
-.hotspot-footer-buttons {
-  flex: 0 0 auto;
+.modal-footer-buttons {
   display: flex;
   gap: 12px;
 }
 
-.hotspot-field {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.hotspot-url {
+.modal-footer-buttons-space-between {
   display: flex;
   gap: 12px;
-  align-items: center;;
-}
-
-.hotspot-open-url-btn {
-  padding: 9px
+  justify-content: space-between;
+  width: 100%;
 }
 
 @media (min-width: 769px) {
-  .hotspot-modal {
+  .modal {
     width: 80%;
     height: 80%;
     min-width: 700px;
@@ -84,9 +70,5 @@
     border-radius: var(--panel-radius);
     box-shadow: var(--panel-shadow);
     border-radius: 10px;
-  }
-
-  .hotspot-type {
-    width: 200px;
   }
 }
