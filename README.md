@@ -195,8 +195,12 @@ To use **html360**, you need to have the following installed:
 ## 🤝 Built With
 Big thanks to these amazing projects that power html360:
 *   **[Pannellum](https://pannellum.org)** — the core 360° viewer engine.
-*   **[Hugin](https://hugin.sourceforge.io/)** — specifically the nona tool, providing the power for panorama transformations.
 *   **[Sharp](https://sharp.pixelplumbing.com)** — for high-speed image optimization.
+*   **[Hugin](https://hugin.sourceforge.io/)** — specifically the nona tool, providing the power for panorama transformations.
 *   **[Google Gemini](https://deepmind.google)** — for co-authoring the entire project.
 *   **The Open Source Community** — and all the amazing dependencies that make this tool possible.
 
+<!-- ####################################################################################################### -->
+
+## ❤️ Support
+If you like `html360` and want to drop a tip, you can donate any amount here **[Boosty](https://boosty.to/html360/donate)** 
