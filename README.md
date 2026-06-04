@@ -19,11 +19,11 @@ You can open it on any device without:
 
 ## 🖼️ Live Demo
 Experience the power of **html360** with these interactive examples:
-- **Standard (8K Optimized)**: [View 8K Demo](https://html360.github.io/LiveDemo/1.html)
+- **Standard (8K Optimized)**: [View 8K Demo](https://html360.github.io/live-demo/dzhantugan-way.html)
   
   *Perfect for messengers. Single 8MB HTML file, fast and portable.*
 
-- **Multiresolution (Gigapixel Panorama)**: [View 23K Demo](https://html360.github.io/Multiresolution/index.html)
+- **Multiresolution (Gigapixel Panorama)**: [View 23K Demo](https://html360.github.io/multires/multiresolution//index.html)
   
   *The Milky Way (23,520 x 11,760 px). Infinite zoom, seamless tile loading.*
 
