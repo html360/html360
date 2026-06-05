@@ -5,6 +5,7 @@ import { buildMultires } from "./multires-processor";
 import { installMenu, uninstallMenu } from "./menu";
 import { logger } from "./logger";
 import pkg from "../../package.json" with { type: "json" };
+import { configure } from "./configure";
 
 try {
   program
@@ -66,14 +67,8 @@ try {
       "viewer should limit view to avoid showing background, so using --backgroundcolor is not needed",
     )
     .option("-q, --quality <value>", "JPEG quality (defaults to 95)")
-    .option(
-      "--png",
-      "output PNG tiles instead of JPEG tiles",
-    )
-    .option(
-      "-G, --gpu",
-      "perform image remapping by nona on the GPU",
-    )
+    .option("--png", "output PNG tiles instead of JPEG tiles")
+    .option("-G, --gpu", "perform image remapping by nona on the GPU")
     .option(
       "-d, --debug",
       "debug mode (print status info and keep intermediate files)",
@@ -89,6 +84,11 @@ try {
     .command("uninstall-menu")
     .description('Remove html360 from Windows "Send To" menu')
     .action(uninstallMenu);
+
+  program
+    .command("config")
+    .description('Configure global settings for all panoramas')
+    .action(configure);
 
   if (process.argv.length > 2) {
     await program.parseAsync(process.argv);

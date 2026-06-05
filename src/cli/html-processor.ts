@@ -112,6 +112,8 @@ async function writeState(
     name: getHtmlName(imgPath, ctx.options),
     tourCandidatesUrls: getToursCandidatesUrls(imgPath, ctx),
     isMultires: false,
+    author: ctx.config.author,
+    authorURL: ctx.config.authorUrl,
     version: pkg.version,
   };
 

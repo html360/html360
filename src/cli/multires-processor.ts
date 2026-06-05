@@ -108,6 +108,8 @@ function getStateJSON(imgPath: string, ctx: MultiresContext) {
     name: output.name,
     tourCandidatesUrls: getToursCandidatesUrls(imgPath, ctx),
     isMultires: true,
+    author: ctx.config.author,
+    authorURL: ctx.config.authorUrl,
     version: pkg.version,
   };
 

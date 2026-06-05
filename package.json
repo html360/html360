@@ -36,6 +36,7 @@
     "build:prod": "npm run build -- prod"
   },
   "dependencies": {
+    "@clack/prompts": "1.5.1",
     "ansi-colors": "4.1.3",
     "base64-stream": "1.0.0",
     "cli-progress": "3.12.0",

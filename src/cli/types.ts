@@ -1,3 +1,5 @@
+import { Config } from "./config";
+
 export type HtmlOptions = {
   raw: boolean;
 };
@@ -7,6 +9,7 @@ export type HtmlContext = {
   options: HtmlOptions;
   threadCount: number;
   htmlChunks: HtmlChunks;
+  config: Config;
 };
 
 export type MultiresOptions = {
@@ -31,6 +34,7 @@ export type MultiresContext = {
   imgPaths: string[];
   options: MultiresOptions;
   templateHtml: string;
+  config: Config;
 };
 
 export type HtmlChunks = {
@@ -44,4 +48,3 @@ export type FileError = {
   fileName: string;
   error: any;
 };
-
