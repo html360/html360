@@ -1,14 +1,13 @@
 import { html360Gen } from "html360-gen";
 import fs from "node:fs";
-import path, { resolve } from "node:path";
+import path from "node:path";
 import { spawnSync } from "node:child_process";
-import { fileURLToPath } from "node:url";
 import { logger } from "./logger";
 import { defaultState, State } from "../core/state";
 import { MultiresContext, MultiresOptions } from "./types";
 import { getMultiresContext } from "./context";
 import pkg from "../../package.json" with { type: "json" };
-import { isNil } from "./utils";
+import { getName, isNil } from "./utils";
 
 export function buildMultires(imgPaths: string[], options: MultiresOptions) {
   imgPaths = imgPaths.map((x) => path.resolve(x));
@@ -44,7 +43,7 @@ function processImage(imgPath: string, ctx: MultiresContext) {
   }
 
   let html = ctx.templateHtml
-    .replace("{{TITLE}}", path.parse(imgPath).name)
+    .replace("{{TITLE}}", getName(imgPath))
     .replace(
       "{{PANORAMA_DATA}}",
       "<!-- In multiresolution mode {{PANORAMA_DATA}} is empty -->",
@@ -57,17 +56,20 @@ function processImage(imgPath: string, ctx: MultiresContext) {
 function getOutputInfo(imgPath: string): {
   dir: string;
   htmlPath: string;
+  htmlName: string;
   name: string;
 } {
-  const name = path.parse(imgPath).name;
+  const name = getName(imgPath);
   const dir = path.join(path.dirname(imgPath), name);
-  const htmlPath = path.join(dir, "index.html");
+  const htmlName = "index.html";
+  const htmlPath = path.join(dir, htmlName);
 
   return {
     dir,
     htmlPath,
-    name
-  }
+    htmlName,
+    name,
+  };
 }
 
 function getHtml360GenArgs(
@@ -105,9 +107,11 @@ function getStateJSON(imgPath: string, ctx: MultiresContext) {
 
   const state: State = {
     ...defaultState,
-    name: output.name,
+    htmlName: output.htmlName,
     tourCandidatesUrls: getToursCandidatesUrls(imgPath, ctx),
     isMultires: true,
+    tabTitle: output.name,
+    title: ctx.config.useImageNameAsTitle ? output.name : "",
     author: ctx.config.author,
     authorURL: ctx.config.authorUrl,
     version: pkg.version,

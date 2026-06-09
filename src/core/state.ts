@@ -1,7 +1,7 @@
 import { PannellumHotSpot } from "./pannellum/pannellum";
 
 export type State = {
-  name: string;
+  htmlName: string;
   yaw: number;
   pitch: number;
   hfov: number;
@@ -10,6 +10,7 @@ export type State = {
   isReadOnly: boolean;
   isEditMode: boolean;
   isMultires: boolean;
+  tabTitle: string;
   title: string;
   author: string;
   authorURL: string;
@@ -17,7 +18,7 @@ export type State = {
 };
 
 export const defaultState: State = {
-  name: "html360",
+  htmlName: "",
   yaw: 0,
   pitch: 0,
   hfov: 100,
@@ -26,8 +27,9 @@ export const defaultState: State = {
   isReadOnly: false,
   isEditMode: false,
   isMultires: false,
+  tabTitle: "",
   title: "",
   author: "",
   authorURL: "",
-  version: "0.0.0",
+  version: "",
 };

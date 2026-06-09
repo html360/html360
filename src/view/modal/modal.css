@@ -39,7 +39,7 @@
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
 }
 
 .modal-footer {

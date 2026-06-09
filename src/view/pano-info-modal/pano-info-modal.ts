@@ -14,8 +14,12 @@ function create(store: Store, uiLayer: HTMLDivElement) {
     header: "Panorama details",
     content: `
       <div class="field-box">
-        <label for="pano-meta-title" class="label">Title</label>
-        <input id="pano-meta-title" type="text" class="input" placeholder="Enter title...">
+        <label class="label" for="pano-meta-author-url">Tab title</label>
+        <input type="text" class="input" id="pano-meta-tab-title" placeholder="Enter tab title...">
+      </div>
+      <div class="field-box">
+        <label for="pano-meta-title" class="label">Panorama Title</label>
+        <input id="pano-meta-title" type="text" class="input" placeholder="Enter panorama title...">
       </div>
       <div class="field-box">
         <label for="pano-meta-author" class="label">Author</label>
@@ -36,6 +40,7 @@ function create(store: Store, uiLayer: HTMLDivElement) {
   const titleElm = getElementById<HTMLInputElement>("pano-meta-title");
   const authorElm = getElementById<HTMLInputElement>("pano-meta-author");
   const authorUrlElm = getElementById<HTMLInputElement>("pano-meta-author-url");
+  const tabTitleElm = getElementById<HTMLInputElement>("pano-meta-tab-title");
   const saveBtn = getElementById("pano-meta-save");
   const closeBtn = getElementById("pano-meta-close");
 
@@ -43,6 +48,7 @@ function create(store: Store, uiLayer: HTMLDivElement) {
     store.setTitle(titleElm.value);
     store.setAuthor(authorElm.value);
     store.setAuthorUrl(authorUrlElm.value);
+    store.setTabTitle(tabTitleElm.value);
     hide();
   };
 
@@ -54,6 +60,7 @@ function create(store: Store, uiLayer: HTMLDivElement) {
     titleElm.value = store.state.title;
     authorElm.value = store.state.author;
     authorUrlElm.value = store.state.authorURL;
+    tabTitleElm.value = store.state.tabTitle;
 
     saveBtn.addEventListener("click", onSaveClick);
     closeBtn.addEventListener("click", onCloseClick);

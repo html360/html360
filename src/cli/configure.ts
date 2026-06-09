@@ -11,7 +11,8 @@ export async function configure() {
 
   p.intro("Configure global settings for all panoramas");
 
-  const newConfig: Pick<Config, "author" | "authorUrl"> = await p.group(
+  const newConfig: Pick<Config, "author" | "authorUrl" | "useImageNameAsTitle"> = 
+  await p.group(
     {
       author: () =>
         p.text({
@@ -25,15 +26,20 @@ export async function configure() {
           placeholder: "Example: https://example.com",
           initialValue: config.authorUrl,
           validate: (value) => {
-            // Allow empty value if the user doesn't want to provide a URL
-            if (!value) return; 
+            if (!value) return;
 
             // Simple URL regex check (accepts http://, https://, or root-relative paths if needed)
-            const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/i;
+            const urlPattern =
+              /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/i;
             if (!urlPattern.test(value)) {
               return "Please enter a valid URL (e.g., https://example.com) or leave it empty.";
             }
-          }          
+          },
+        }),
+      useImageNameAsTitle: () =>
+        p.confirm({
+          message: "Use image name as panorama title?",
+          initialValue: config.useImageNameAsTitle,
         }),
     },
     {
@@ -53,12 +59,12 @@ export async function configure() {
 }
 
 export function readConfig(): Config {
-  try {
+  if (fs.existsSync(CONFIG_PATH)) {
     const config = JSON.parse(fs.readFileSync(CONFIG_PATH, "utf8"));
     return { ...defaultConfig, ...config };
-  } catch {
-    return defaultConfig;
   }
+
+  return defaultConfig;
 }
 
 function saveConfig(config: Config) {

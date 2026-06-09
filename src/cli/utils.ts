@@ -1,3 +1,5 @@
+import path from "node:path";
+
 export const toMB = (bytes: number) => (bytes / 1024 / 1024).toFixed(2);
 
 export const getRSS = () => process.memoryUsage().rss;
@@ -24,3 +26,5 @@ export async function silent(fn: () => Promise<any>) {
     await fn();
   } catch {}
 }
+
+export const getName = (imgPath: string) => path.parse(imgPath).name;

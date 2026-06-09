@@ -34,5 +34,5 @@ button, input, select, textarea {
 .field-box {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }

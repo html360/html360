@@ -70,9 +70,15 @@ function create() {
     state.author = value.trim();
     event.emit("setAuthor", state.author);
   };
+
   const setAuthorUrl = (value: string) => {
     state.authorURL = value.trim();
     event.emit("setAuthorUrl", state.authorURL);
+  };
+
+  const setTabTitle = (value: string) => {
+    state.tabTitle = value.trim();
+    document.title = state.tabTitle || "html360";
   };
 
   const getOrientationUrlParams = () => {
@@ -96,7 +102,7 @@ function create() {
     const blob = new Blob([fullHtml], { type: "text/html" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = newState.name;
+    link.download = newState.htmlName;
     link.click();
   };
 
@@ -111,6 +117,7 @@ function create() {
     setTitle,
     setAuthor,
     setAuthorUrl,
+    setTabTitle,
     addHotspot,
     removeHotspot,
     getOrientationUrlParams,

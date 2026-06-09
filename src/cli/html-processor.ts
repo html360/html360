@@ -7,7 +7,7 @@ import { Base64Encode } from "base64-stream";
 import sharp from "sharp";
 import { logger } from "./logger";
 import { startProgressBar } from "./progress-bar";
-import { silent } from "./utils";
+import { getName, silent } from "./utils";
 import { getMimeType, verifyFileFormat } from "./supported-formats";
 import { writeAsync } from "./stream-utils";
 import { defaultState, State } from "../core/state";
@@ -70,7 +70,7 @@ async function writeFirst(
   imgPath: string,
   ctx: HtmlContext,
 ) {
-  const title = path.parse(imgPath).name;
+  const title = getName(imgPath);
   const first = ctx.htmlChunks.first.replace("{{TITLE}}", title);
   await writeAsync(writeStream, first);
 }
@@ -107,11 +107,14 @@ async function writeState(
   imgPath: string,
   ctx: HtmlContext,
 ) {
+  const name = getName(imgPath);
   const state: State = {
     ...defaultState,
-    name: getHtmlName(imgPath, ctx.options),
+    htmlName: getHtmlName(imgPath, ctx.options),
     tourCandidatesUrls: getToursCandidatesUrls(imgPath, ctx),
     isMultires: false,
+    tabTitle: name,
+    title: ctx.config.useImageNameAsTitle ? name : "",
     author: ctx.config.author,
     authorURL: ctx.config.authorUrl,
     version: pkg.version,
@@ -128,7 +131,7 @@ function getHtmlPath(imgPath: string, options: HtmlOptions) {
 }
 
 function getHtmlName(imgPath: string, options: HtmlOptions) {
-  const name = path.parse(imgPath).name;
+  const name = getName(imgPath);
   const suffix = options.raw ? "_RAW" : "";
   return `${name}${suffix}.html`;
 }
