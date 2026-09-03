@@ -39,7 +39,7 @@ function processItem(item: MultiresItem) {
   }
 
   let html = item.ctx.templateHtml
-    .replace("{{TITLE}}", item.imgName)
+    .replace("{{TITLE}}", item.tabTitle)
     .replace(
       "{{PANORAMA_DATA}}",
       "<!-- In multiresolution mode {{PANORAMA_DATA}} is empty -->",
@@ -78,12 +78,13 @@ function getHtml360GenArgs(item: MultiresItem): string[] {
 function getStateJSON(item: MultiresItem) {
   const state: State = {
     ...defaultState,
+    imgName: item.imgName,
     htmlFileName: item.htmlFileName,
     tourCandidatesUrls: item.relativeUrls,
     autoNav: getAutoNavState(item.ctx.config, item.relativeUrls, item.index),
     isMultires: true,
-    tabTitle: item.imgName,
-    title: item.ctx.config.useImageNameAsTitle ? item.imgName : "",
+    tabTitle: item.tabTitle,
+    title: item.ctx.config.title || (item.ctx.config.useImageNameAsTitle ? item.imgName : ""),
     author: item.ctx.config.author,
     authorURL: item.ctx.config.authorUrl,
     version: pkg.version,

@@ -1,4 +1,6 @@
 export type Config = {
+  tabTitle: string;
+  title: string;
   author: string;
   authorUrl: string;
   useImageNameAsTitle: boolean;
@@ -6,6 +8,8 @@ export type Config = {
 };
 
 export const defaultConfig: Config = {
+  tabTitle: "",
+  title: "",
   author: "",
   authorUrl: "",
   useImageNameAsTitle: false,

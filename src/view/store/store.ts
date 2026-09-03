@@ -79,8 +79,8 @@ function create() {
   };
 
   const setTabTitle = (value: string) => {
-    state.tabTitle = value.trim();
-    document.title = state.tabTitle || "html360";
+    state.tabTitle = value.trim() || state.imgName;
+    document.title = state.tabTitle;
     event.emit("setTabTitle", value)
   };
 
@@ -108,10 +108,14 @@ function create() {
     docClone.querySelector(`#${UI_LAYER_ID}`)?.remove();
     const fullHtml = "<!doctype html>\n" + docClone.outerHTML;
     const blob = new Blob([fullHtml], { type: "text/html" });
+    const blobUrl = URL.createObjectURL(blob);
     const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
+    document.body.appendChild(link);
+    link.href = blobUrl;
     link.download = newState.htmlFileName;
     link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(blobUrl);
   };
 
   return {

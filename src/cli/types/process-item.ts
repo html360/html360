@@ -9,6 +9,7 @@ type Item = {
   htmlPath: string;
   htmlFileName: string;
   htmlDir: string;
+  tabTitle: string;
   relativeUrls: string[];
 };
 

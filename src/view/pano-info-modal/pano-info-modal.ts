@@ -15,7 +15,7 @@ function create(store: Store, uiLayer: HTMLDivElement) {
     content: `
       <div class="field-box">
         <label class="label" for="pano-meta-author-url">Tab title</label>
-        <input type="text" class="input" id="pano-meta-tab-title" placeholder="Enter tab title...">
+        <input type="text" class="input" id="pano-meta-tab-title" placeholder="${store.state.imgName}">
       </div>
       <div class="field-box">
         <label for="pano-meta-title" class="label">Panorama Title</label>
@@ -64,7 +64,9 @@ function create(store: Store, uiLayer: HTMLDivElement) {
 
     saveBtn.addEventListener("click", onSaveClick);
     closeBtn.addEventListener("click", onCloseClick);
+    
     modal.show();
+    tabTitleElm.focus();
   };
 
   const hide = () => {

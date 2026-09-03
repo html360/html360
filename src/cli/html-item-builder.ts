@@ -11,6 +11,7 @@ export function buildHtmlItems(imgPaths: string[], ctx: HtmlContext): HtmlItem[]
     const htmlPath = getHtmlPath(imgPath, ctx.options);
     const htmlFileName = getHtmlFileName(imgPath, ctx.options);
     const htmlDir = path.dirname(htmlPath);
+    const tabTitle = ctx.config.tabTitle || imgName;
     const relativeUrls = ctx.imgPaths
       .map((x) => getHtmlPath(x, ctx.options))
       .map((x) => getRelativeUrl(htmlDir, x));
@@ -23,6 +24,7 @@ export function buildHtmlItems(imgPaths: string[], ctx: HtmlContext): HtmlItem[]
       htmlPath,
       htmlFileName,
       htmlDir,
+      tabTitle,
       relativeUrls,
       ctx,
     }

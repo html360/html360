@@ -11,6 +11,7 @@ export function buildMultiresItems(imgPaths: string[], ctx: MultiresContext): Mu
     const htmlPath = info.htmlPath;
     const htmlFileName = info.htmlFileName;
     const htmlDir = info.dir;
+    const tabTitle = ctx.config.tabTitle || imgName;;
     const relativeUrls = ctx.imgPaths
       .map((x) => getOutputInfo(x).htmlPath)
       .map((x) => getRelativeUrl(htmlDir, x));
@@ -23,6 +24,7 @@ export function buildMultiresItems(imgPaths: string[], ctx: MultiresContext): Mu
       htmlPath,
       htmlFileName,
       htmlDir,
+      tabTitle,
       relativeUrls,
       ctx,
     }

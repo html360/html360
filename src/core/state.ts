@@ -1,6 +1,7 @@
 import { PannellumHotSpot } from "./pannellum/pannellum";
 
 export type State = {
+  imgName: string;
   htmlFileName: string;
   yaw: number;
   pitch: number;
@@ -27,6 +28,7 @@ export type AutoNavState = {
 }
 
 export const defaultState: State = {
+  imgName: "",
   htmlFileName: "",
   yaw: 0,
   pitch: 0,

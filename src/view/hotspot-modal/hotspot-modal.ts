@@ -200,6 +200,7 @@ function create(store: Store, uiLayer: HTMLDivElement, viewer: ViewerAdapter) {
     window.addEventListener("message", onMessage);
 
     modal.show();
+    textElm.focus();
   };
 
   const hide = () => {

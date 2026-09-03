@@ -1,6 +1,12 @@
 # CHANGELOG
 
 <!-- ####################################################################################################### -->
+## 2.14.0 (2026-09-09)
+- Add global configuration for tabTitle and title
+- Automatically focus the first input field when modals are opened
+- Implement data cleanup after saving a panorama
+
+<!-- ####################################################################################################### -->
 
 ## 2.13.0 (2026-09-03)
 - Add Automatic Panorama Gallery

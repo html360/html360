@@ -72,8 +72,7 @@ async function processItem(item: HtmlItem) {
 }
 
 async function writeFirst(writeStream: fs.WriteStream, item: HtmlItem) {
-  const title = item.imgName;
-  const first = item.ctx.htmlChunks.first.replace("{{TITLE}}", title);
+  const first = item.ctx.htmlChunks.first.replace("{{TITLE}}", item.tabTitle);
   await writeAsync(writeStream, first);
 }
 
@@ -103,6 +102,7 @@ async function writeImage(writeStream: fs.WriteStream, item: HtmlItem) {
 async function writeState(writeStream: fs.WriteStream, item: HtmlItem) {
   const state: State = {
     ...defaultState,
+    imgName: item.imgName,
     htmlFileName: item.htmlFileName,
     tourCandidatesUrls: item.relativeUrls,
     autoNav: getAutoNavState(
@@ -111,8 +111,8 @@ async function writeState(writeStream: fs.WriteStream, item: HtmlItem) {
       item.index
     ),
     isMultires: false,
-    tabTitle: item.imgName,
-    title: item.ctx.config.useImageNameAsTitle ? item.imgName : "",
+    tabTitle: item.tabTitle,
+    title: item.ctx.config.title || (item.ctx.config.useImageNameAsTitle ? item.imgName : ""),
     author: item.ctx.config.author,
     authorURL: item.ctx.config.authorUrl,
     version: pkg.version,

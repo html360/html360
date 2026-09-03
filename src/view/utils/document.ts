@@ -15,10 +15,8 @@ export function copyTextToClipboard(text: string): boolean {
   try {
     document.execCommand("copy");
     return true;
-    alert();
   } catch (err) {
     return false;
-    window.alert(`Failed to copy: ${text}`);
   } finally {
     document.body.removeChild(textArea);
   }

@@ -15,16 +15,32 @@ export async function configure() {
   const newConfig: Config =
     await p.group(
       {
+        tabTitle: () =>
+          p.text({
+            message: "Enter tab title (default is image name):",
+            initialValue: config.tabTitle,
+          }),
+        title: () =>
+          p.text({
+            message: "Enter panorama title:",
+            initialValue: config.title,
+          }),
+        useImageNameAsTitle: (opt: any) => {
+          const results = opt.results as Partial<Config>;
+          return !results.title ?
+            p.confirm({
+              message: "Use image name as panorama title?",
+              initialValue: config.useImageNameAsTitle,
+            }) : Promise.resolve(false);
+        },
         author: () =>
           p.text({
             message: "Enter author:",
-            placeholder: "Example: Superman",
             initialValue: config.author,
           }),
         authorUrl: () =>
           p.text({
             message: "Enter author url:",
-            placeholder: "Example: https://example.com",
             initialValue: config.authorUrl,
             validate: (value) => {
               if (!value) return;
@@ -36,11 +52,6 @@ export async function configure() {
                 return "Please enter a valid URL (e.g., https://example.com) or leave it empty.";
               }
             },
-          }),
-        useImageNameAsTitle: () =>
-          p.confirm({
-            message: "Use image name as panorama title?",
-            initialValue: config.useImageNameAsTitle,
           }),
         useAutoNav: () =>
           p.confirm({

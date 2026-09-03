@@ -1,18 +1,13 @@
 # TODO
 
-- добавить ссылу на мои панорамы %)
+- faviconUrl + html360 config 
 
-- нужно уметь редактировать favicon + html360 config favicon 
-
-- Тесты
+## ??? 
+- тесты
 - WebXR/VR Mode: Кнопка для перехода в режим виртуальной реальности (для Google Cardboard или Oculus).
 - Сходить в nano с проблемой про большие tif, но возможно они и так о ней знают.
 - html360-gen. UnicodeEncodeError: 'charmap' codec can't encode character '\xed' in position 153: character maps to <undefined>
-- html360. WebServer для раболты с multires
-- Тулза для просмотра панорам в указаной папке?) Для multires нужен локальный web-сервер + Это может быть просто удобно... 
 - Автоматизировать создание релиза 
-
-## ??? 
 - Научиться рисовать на панораме %)
 - В pannelum есть ограничение на браузеры. Возможно это как-то должно повлиять на мою сборку, но это не точно...
 - pannellum. Предложить/PR создавать sourcemap 
