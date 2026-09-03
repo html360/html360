@@ -29,6 +29,14 @@ Experience the power of **html360** with these interactive examples:
 
   *Image Credit: [P. Horálek & J. C. Casado / ESO](https://www.eso.org/public/images/potw2137b/)*
 
+<details>
+<summary>My <b>html360</b> projects</summary>
+
+- 🧗‍♂️ [TYRNYAUZ_2026](https://d-hand.github.io/360/TYRNYAUZ_2026/index.html)
+- 🏄‍♂️ [VIZ](https://d-hand.github.io/360/VIZ_2026_08_07/CAM_20260806203211_0013_D.html)
+- 🌲 [KISLOVODSK_2026](https://d-hand.github.io/360/KISLOVODSK_2026/DJI_20260625111915_0027_D.html)
+
+</details>
 
 <!-- ####################################################################################################### -->
 
