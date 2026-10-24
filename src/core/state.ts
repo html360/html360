@@ -1,4 +1,4 @@
-import { PannellumHotSpot } from "./pannellum/pannellum";
+import { PannellumHotSpot } from "./pannellum";
 
 export type State = {
   imgName: string;
@@ -9,6 +9,7 @@ export type State = {
   hotspots: PannellumHotSpot[];
   tourCandidatesUrls: string[];
   autoNav: AutoNavState | null;
+  map: MapState;
   isLoaded: boolean;
   isReadOnly: boolean;
   isEditMode: boolean;
@@ -27,6 +28,20 @@ export type AutoNavState = {
   nextUrl: string;
 }
 
+export type MapState = {
+  lat: number | null; 
+  lng: number | null;
+  template: string;
+  url: string;
+}
+
+export const defaultMapState: MapState = {
+    lat: null,
+    lng: null,
+    template: "",
+    url: "",
+  };
+
 export const defaultState: State = {
   imgName: "",
   htmlFileName: "",
@@ -36,6 +51,7 @@ export const defaultState: State = {
   hotspots: [],
   tourCandidatesUrls: [],
   autoNav: null,
+  map: defaultMapState,
   isLoaded: false,
   isReadOnly: false,
   isEditMode: false,

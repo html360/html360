@@ -1,8 +1,10 @@
 # TODO
 
-- faviconUrl + html360 config 
+- readme changelog
 
 ## ??? 
+- валидация url (не давать сохранять кривые url)
+- faviconUrl + html360 config 
 - тесты
 - WebXR/VR Mode: Кнопка для перехода в режим виртуальной реальности (для Google Cardboard или Oculus).
 - Сходить в nano с проблемой про большие tif, но возможно они и так о ней знают.
@@ -31,7 +33,33 @@
 
 ## FAQ
 
-#### Disable same origin policy in Chrome for Windows:
+### MapUrl
+широта / latitude 	 (lat) 59.61 
+
+долгота / longitude  (lng) 59.10
+
+#### Google  
+- https://www.google.com/maps?q=59.61%2C59.10&ll=59.61%2C59.10&z=13
+  
+  Недокументированный формат 
+
+
+- https://www.google.com/maps/search/?api=1&query=59.61%2C59.10
+  
+  [Дока](https://developers.google.com/maps/documentation/urls/get-started?hl=ru)
+
+#### Yandex
+https://yandex.ru/maps/?ll=59.10%2C59.61&pt=59.10%2C59.61&z=13
+
+[Дока](https://yandex.ru/dev/yandex-apps-launch-maps/doc/ru/concepts/yandexmaps-web)
+
+#### Nakatre
+https://nakarte.me/#m=13/59.61/59.10&r=59.61/59.10/zzz
+
+[Дока](https://docs.nakarte.me/hashParams.html)
+
+
+### Disable same origin policy in Chrome for Windows:
 1) Open the start menu
 2) Type windows+R or open "Run"
 3) Execute the following command:

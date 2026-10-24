@@ -2,9 +2,12 @@
     position: absolute;
     top: 0;
     display: inline;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
     border-radius: 0 3px 3px 0;
     padding: 4px 6px;
-    background-color: rgba(0,0,0,0.7);
+    background-color: rgba(0, 0, 0, 0.7);
     color: var(--color-white);
     text-align: left;
     z-index: var(--z-index-2);
@@ -14,18 +17,27 @@
 }
 
 .pano-info-title {
-    position: relative;
     font-size: 20px;
-    display: table;
-    margin-bottom: 3px;
 }
 
 .pano-info-author {
-    position: relative;
     font-size: 12px;
-    display: table;
 }
 
 .pano-info-author a {
-  color: var(--color-white);
+    color: var(--color-white);
+}
+
+.pano-info-author a:hover {
+    color: var(--color-white-60);
+}
+
+.pano-info svg {
+    width: 20px;
+    height: 20px;
+    color: var(--color-white);
+}
+
+.pano-info svg:hover {
+    color: var(--color-white-60);
 }

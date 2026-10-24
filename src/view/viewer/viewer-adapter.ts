@@ -1,8 +1,9 @@
-import pannellum, {
+import {
   ClickHandlerArgs,
   PannellumConfig,
   PannellumHotSpot,
-} from "../../core/pannellum/pannellum";
+} from "../../core/pannellum";
+import pannellum from "../pannellum/pannellum";
 import { Store } from "../store/store";
 import { getElementById } from "../utils/document";
 import { createEventEmitter } from "../utils/event-emitter";

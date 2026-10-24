@@ -1,6 +1,8 @@
 import path from "node:path";
-import { AutoNavState } from "../../core/state";
+import { AutoNavState, defaultMapState, MapState } from "../../core/state";
 import { Config } from "../types/config";
+import { getGps } from "./gps";
+import { buildMapUrl } from "../../core/map-url";
 
 export function prepareImgPaths(imgPaths: string[]): string[] {
   let result = imgPaths.map((x) => path.resolve(x));
@@ -30,7 +32,7 @@ export const getRelativeUrl = (fromDirPath: string, toFilePath: string) => {
 }
 
 export function getAutoNavState(config: Config, urls: string[], index: number): AutoNavState | null {
-  if (!config.useAutoNav && urls.length > 1) {
+  if (!config.useAutoNav || urls.length === 1) {
     return null;
   }
 
@@ -50,3 +52,25 @@ export function getAutoNavState(config: Config, urls: string[], index: number): 
 }
 
 export const getImgName = (imgPath: string) => path.parse(imgPath).name;
+
+export const getMapState = async (config: Config, filePath: string): Promise<MapState> => {
+  if (!config.addGps) {
+    return defaultMapState;
+  }
+
+  const gps = await getGps(filePath);
+
+  if (!gps) {
+    return defaultMapState;
+  }
+
+  const template = config.mapUrlTemplate;
+  const url = buildMapUrl(template, gps.lat, gps.lng);
+
+  return {
+    lat: gps.lat,
+    lng: gps.lng,
+    template,
+    url
+  };
+}

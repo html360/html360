@@ -2,6 +2,8 @@
   <img src="src/view/assets/html360.svg" width="128" alt="html360 logo">
 </p>
 
+**English** | [Русский](https://github.com/html360/html360/blob/main/README.ru.md) 
+
 A simple CLI tool to pack 360° equirectangular panoramas into a single, standalone HTML file. 
 Perfect for sharing with friends via messengers or viewing offline.
 
@@ -47,13 +49,13 @@ npx html360 panorama_1.jpg panorama_2.jpg
 
 ## ✨ Windows Integration
 
-One of the coolest features of **html360** is the ability to pack panoramas directly from your File Explorer. No terminal skills required for your friends!
+One of the coolest features of **html360** is the ability to pack panoramas directly from your File Explorer.
 
 ![Windows Context Menu Preview](assets/windows-integration-v2.gif)
 *Right-click -> Send to -> html360*
 
 ### Setup Context Menu
-After installing the package globally, run this command **once** to add html360 to your "Send To" menu:
+After installing the package globally, run this command **once** to add **html360** to your "Send To" menu:
 ```
 html360 install-menu
 ```
@@ -61,11 +63,6 @@ html360 install-menu
 ```
 html360 uninstall-menu
 ```
-### How it works
-1. Open any folder with your 360° photos.
-2. Select one or multiple JPEG/PNG files.
-3. Right-click -> Send to -> html360.
-4. Done! A standalone .html file will appear next to each image instantly.
 
 <!-- ####################################################################################################### -->
 
@@ -109,7 +106,6 @@ The generator bakes intuitive **Next** and **Back** arrow buttons directly into 
 
 - **Like a Photo Album:** Flip through your panoramas just like standard photos.
 - **Smart Counter:** Displays an elegant `"Scene X / Total"` indicator right between the navigation arrows, so you always know where you are.
-- **Keyboard Control:** Use the `←` and `→` arrow to instantly switch between panoramas.
 
 ### How to Enable
 
@@ -141,7 +137,7 @@ For archival purposes or high-end desktop viewing, use the **Raw Original** mode
 <!-- ####################################################################################################### -->
 
 ## ✨ Multiresolution: Gigapixel Panoramas
-Forget about browser RAM or GPU limits. html360 can now process extreme resolution images (NASA/ESO 40K+ scale) by slicing them into thousands of smart interactive tiles.
+Forget about browser RAM or GPU limits. **html360** can now process extreme resolution images (NASA/ESO 40K+ scale) by slicing them into thousands of smart interactive tiles.
 - **Beyond 8K**: Automatically bypasses the MAX_TEXTURE_SIZE limits of modern browsers.
 - **On-Demand Loading**: The viewer only loads the specific tiles you are looking at. This makes exploring giant gigapixel scenes instant and fluid.
 - **Synchronous Pipeline**: Slicing is performed sequentially to protect your CPU and RAM from overloading when handling massive source files.
@@ -152,7 +148,7 @@ html360 multires massive_pano_01.tif massive_pano_02.tif ...
 *This mode supports the same parameters as the original generate.py (haov, vaov, voffset, horizon, etc.), but with optimized defaults for maximum out-of-the-box quality.*
 
 ### Professional Multires Mode
-The **Multiresolution** mode is a "heavy artillery" feature and works differently from the standard html360 experience:
+The **Multiresolution** mode is a "heavy artillery" feature and works differently from the standard **html360** experience:
 1. **Breaking the "One File" Rule**: Instead of a single standalone HTML file, this mode generates a folder containing thousands of image fragments. This is technically required for browsers to "digest" gigapixel images piece by piece.
 2. **Web Hosting Required**: Due to browser security policies (CORS), you cannot simply double-click the index.html from your disk. The result must be uploaded to a website or run via a local web server to be viewable.
 3. **Specific Use-Cases**: Use this mode for professional web projects where extreme detail is more important than the ability to quickly send a single file via messenger.
@@ -179,19 +175,13 @@ The **Save** action captures the entire current state of your panorama and bakes
 - **Information spot:** Every info-spot, text description, and external web link.
 - **Custom Metadata:** The panorama title, author name, and custom configurations.
 
-### How it works
-1. **Open:** Launch your generated `.html` panorama in any modern web browser.
-2. **Customize:** Rotate to set the starting angle, drop info-spots, build tours, or edit titles and authors.
-3. **Trigger:** **Right-click** (Desktop) or **Long press** (Mobile) to open the context menu.
-4. **Bake & Download:** Click **Save**. A new standalone `.html` file is generated instantly with all changes hardcoded into the source. 
-
 
 <!-- ####################################################################################################### -->
 
 ## ✨ Save as Read-Only
-**Read-Only Mode** is a built-in security feature in html360 designed for finalizing and protecting your 3D tours before sharing them with clients, stakeholders, or publishing them online.
+**Read-Only Mode** is a built-in security feature in **html360** designed for finalizing and protecting your 3D tours before sharing them with clients, stakeholders, or publishing them online.
 
-By default, every HTML panorama generated by html360 includes a powerful embedded editor that allows anyone to add hotspots, adjust default camera angles, and modify points of interest. While this is perfect for development, you usually want to freeze the project before delivery.
+By default, every HTML panorama generated by **html360** includes a powerful embedded editor that allows anyone to add hotspots, adjust default camera angles, and modify points of interest. While this is perfect for development, you usually want to freeze the project before delivery.
 
 ### How it works
 * Clicking the `Save as Read-Only` button bakes all current views and hotspots into a finalized HTML file, completely stripping all editing controls, configuration panels, and menus from the recipient's viewer interface.
@@ -206,6 +196,29 @@ Inside the editor, you will find a new **"Edit Details"** button. This allows yo
 *   **Panorama Title** — The name of your panorama.
 *   **Author** — Credit the photographer or company right next to the title.
 *   **Author URL** — Turn the author's name into a clickable hyperlink leading to a portfolio or website.
+
+<!-- ####################################################################################################### -->
+
+<!-- ####################################################################################################### -->
+
+## ✨ Maps & GPS Integration
+
+**html360** now allows you to link your panoramas to real-world geographic coordinates. Users can switch from the panorama viewer to an external map with a single click, showing the exact location where the photo was taken.
+
+### New Configuration Options
+Two new flags have been added to automate the process during panorama generation:
+- **`addGps`** (default `false`): Enables automatic extraction of GPS data from the photo's EXIF metadata. It is disabled by default to prevent users from accidentally leaking private location coordinates.
+- **`mapUrlTemplate`** (default empty): Defines the URL template used for the map transition button. During CLI configuration, you can choose from built-in presets (**Google Maps**, **Yandex Maps**, **Nakarte.me**) or supply your own custom template.
+
+When `addGps` is enabled and a `mapUrlTemplate` is specified, the tool automatically generates direct map links for each processed image.
+
+### Editing in the Web Interface
+Locations can also be managed manually in the browser after generating the panorama:
+- A dedicated map settings button is now available in edit mode.
+- The modal window lets you adjust the **Latitude**, **Longitude**, and **mapUrlTemplate**. The final URL updates instantly as you modify any of these fields.
+
+### Viewer Interface
+If a map URL is configured for the panorama, an interactive map button will appear in the top-left corner (right beneath the title and author name). Clicking it opens the map pinned to the exact spot where the panorama was shot.
 
 <!-- ####################################################################################################### -->
 
@@ -226,6 +239,8 @@ html360 config
 | `authorUrl` | `string` | `""` | Link to the author's profile or website. |
 | `useImageNameAsTitle` | `boolean` | `false` | Automatically uses the image file name as panorama title. |
 | `useAutoNav` | `boolean` | `false` | Automatically enables Next/Back gallery navigation. |
+| `addGps` | `boolean` | `false` | Enables automatic extraction of GPS coordinates from the photo's EXIF metadata. Kept disabled by default to prevent accidental location leaks. |
+| `mapUrlTemplate` | `string` | `""` | Defines the URL template for the map transition button. Can be set to a custom string or selected from built-in presets (**Google Maps**, **Yandex Maps**, **Nakarte.me**). |
 
 ### Config Location
 The global configuration file is stored in your user profile directory:
@@ -255,4 +270,4 @@ Big thanks to these amazing projects that power html360:
 <!-- ####################################################################################################### -->
 
 ## ❤️ Support
-If you like `html360` and want to drop a tip, you can donate any amount here **[Boosty](https://boosty.to/html360/donate)** 
+If you like `html360` and want to support the project, you can donate any amount here: **[Cloudtips](https://pay.cloudtips.ru/p/4ba4ffc4)**, **[Boosty](https://boosty.to/html360/donate)**. 

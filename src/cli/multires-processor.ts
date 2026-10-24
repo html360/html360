@@ -7,23 +7,23 @@ import { getMultiresContext } from "./context";
 import { isNil } from "./utils/utils";
 import { MultiresOptions } from "./types/multires-options";
 import pkg from "../../package.json" with { type: "json" };
-import { getAutoNavState, prepareImgPaths } from "./utils/processor";
+import { getAutoNavState, getMapState, prepareImgPaths } from "./utils/processor";
 import { buildMultiresItems } from "./multires-item-builder";
 import { MultiresItem } from "./types/process-item";
 
-export function buildMultires(imgPaths: string[], options: MultiresOptions) {
+export async function buildMultires(imgPaths: string[], options: MultiresOptions) {
   imgPaths = prepareImgPaths(imgPaths);
   const ctx = getMultiresContext(imgPaths, options);
   const items = buildMultiresItems(imgPaths, ctx);
 
   for (const item of items) {
     logger.info(`Start ${item.imgFileName}`);
-    processItem(item);
+    await processItem(item);
     logger.success(`Finish ${item.imgFileName}`);
   }
 }
 
-function processItem(item: MultiresItem) {
+async function processItem(item: MultiresItem) {
   if (fs.existsSync(item.htmlDir)) {
     fs.rmSync(item.htmlDir, { recursive: true, force: true });
   }
@@ -38,13 +38,14 @@ function processItem(item: MultiresItem) {
     throw Error(`Error while processing ${item.imgPath}`);
   }
 
+  const stateJSON = await getStateJSON(item);
   let html = item.ctx.templateHtml
     .replace("{{TITLE}}", item.tabTitle)
     .replace(
       "{{PANORAMA_DATA}}",
       "<!-- In multiresolution mode {{PANORAMA_DATA}} is empty -->",
     )
-    .replace("{{STATE}}", getStateJSON(item));
+    .replace("{{STATE}}", stateJSON);
 
   fs.writeFileSync(item.htmlPath, html);
 }
@@ -75,13 +76,16 @@ function getHtml360GenArgs(item: MultiresItem): string[] {
   return args;
 }
 
-function getStateJSON(item: MultiresItem) {
+async function getStateJSON(item: MultiresItem) {
+  const map = await getMapState(item.ctx.config, item.imgPath);
+
   const state: State = {
     ...defaultState,
     imgName: item.imgName,
     htmlFileName: item.htmlFileName,
     tourCandidatesUrls: item.relativeUrls,
     autoNav: getAutoNavState(item.ctx.config, item.relativeUrls, item.index),
+    map: map,
     isMultires: true,
     tabTitle: item.tabTitle,
     title: item.ctx.config.title || (item.ctx.config.useImageNameAsTitle ? item.imgName : ""),

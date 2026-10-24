@@ -102,8 +102,8 @@ async function buildTemplateJs() {
     target: ["chrome58", "firefox57", "safari11", "edge16"],
     alias: {
       "@pannellum-proxy": isProd
-        ? path.join(srcPath, "core/pannellum/pannellum-prod.js")
-        : path.join(srcPath, "core/pannellum/pannellum-dev.js"),
+        ? path.join(srcPath, "view/pannellum/pannellum-prod.js")
+        : path.join(srcPath, "view/pannellum/pannellum-dev.js"),
     },
   };
   const jsResult = await esbuild.build(options);

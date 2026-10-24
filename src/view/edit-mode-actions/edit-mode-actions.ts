@@ -1,15 +1,14 @@
-import { PannellumHotSpotType } from "../../core/pannellum/pannellum";
+import { PannellumHotSpotType } from "../../core/pannellum";
 import { HotspotModal } from "../hotspot-modal/hotspot-modal";
+import { MapUrlModal } from "../map-url-modal/map-url-modal";
 import { PanoInfoModal } from "../pano-info-modal/pano-info-modal";
 import { Store } from "../store/store";
 import {
   svgAddInfo,
   svgAddPanorama,
-  svgCopyOrientation,
   svgPanoInfo,
+  svgMap
 } from "../svg/svg";
-import { showToast } from "../toast/toast";
-import { copyTextToClipboard } from "../utils/document";
 
 export type EditModeActions = ReturnType<typeof create>;
 
@@ -22,13 +21,14 @@ function create(
   uiLayer: HTMLDivElement,
   panoInfo: PanoInfoModal,
   hotspot: HotspotModal,
+  mapUrlModal: MapUrlModal,
 ) {
   const editPanoInfoBtm = createButton("Edit Details", svgPanoInfo);
   const addPanoramaBtm = createButton("Add Panorama", svgAddPanorama);
   const addInfoBtm = createButton("Add Info", svgAddInfo);
-  const copyOrientationBtm = createButton(
-    "Copy Orientation URL Params",
-    svgCopyOrientation,
+  const setMapUrlBtm = createButton(
+    "Set Map URL",
+    svgMap,
   );
 
   const menu = document.createElement("div");
@@ -36,7 +36,7 @@ function create(
   menu.append(editPanoInfoBtm);
   menu.append(addPanoramaBtm);
   menu.append(addInfoBtm);
-  menu.append(copyOrientationBtm);
+  menu.append(setMapUrlBtm);
   uiLayer.append(menu);
 
   const addHotspot = (type: PannellumHotSpotType) => {
@@ -49,16 +49,15 @@ function create(
 
   const onAddInfo = () => addHotspot("info");
 
-  const onCopyOrientation = () => {
-    const urlParams = store.getOrientationUrlParams();
-    const isCopied = copyTextToClipboard(urlParams);
-    const toastText = `${isCopied ? "Copied" : "Failed"} to clipboard`;
-    showToast(toastText);
-  };
-
   const onEditPanoInfo = () => {
     setTimeout(() => {
       panoInfo.show();
+    }, 0);
+  };
+
+  const onSetMapUrl = () => {
+    setTimeout(() => {
+      mapUrlModal.show();
     }, 0);
   };
 
@@ -66,7 +65,7 @@ function create(
     editPanoInfoBtm.addEventListener("click", onEditPanoInfo);
     addPanoramaBtm.addEventListener("click", onAddPanorama);
     addInfoBtm.addEventListener("click", onAddInfo);
-    copyOrientationBtm.addEventListener("click", onCopyOrientation);
+    setMapUrlBtm.addEventListener("click", onSetMapUrl);
     menu.classList.remove("hidden");
   };
 
@@ -74,7 +73,7 @@ function create(
     editPanoInfoBtm.removeEventListener("click", onEditPanoInfo);
     addPanoramaBtm.removeEventListener("click", onAddPanorama);
     addInfoBtm.removeEventListener("click", onAddInfo);
-    copyOrientationBtm.removeEventListener("click", onCopyOrientation);
+    setMapUrlBtm.removeEventListener("click", onSetMapUrl);
     menu.classList.add("hidden");
   };
 

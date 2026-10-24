@@ -1,6 +1,24 @@
 # CHANGELOG
 
 <!-- ####################################################################################################### -->
+
+## 3.0.0 (2026-10-28)
+
+### ⚠️ BREAKING CHANGES
+
+- **Removed camera coordinates copy feature:** The button for copying the current camera view direction coordinates has been completely removed because it seems like nobody actually used it. The interface and underlying resources have been refocused on full integration with physical geographic maps (GPS).
+
+### ✨ Features
+
+- **Maps & GPS Integration:** Added the ability to link panoramas to real-world geographic coordinates and transition to external maps (Google Maps, Yandex Maps, Nakarte.me) in a single click from the viewer.
+- **CLI Options (`addGps`):** Added a new configuration flag to automatically extract GPS data from EXIF metadata. It is disabled by default to prevent accidental leaks of private location coordinates.
+- **CLI Options (`mapUrlTemplate`):** Added a new configuration option to define map URL templates. Users can choose from built-in presets (Google, Yandex, Nakarte) or provide a custom one during interactive CLI configuration.
+- **Web Editor Maps Controls:** Added a dedicated map settings button and modal window in edit mode to manually adjust Latitude, Longitude, and the URL template with instant preview updates.
+- **Viewer Map Button:** Added an interactive map transition button in the top-left corner of the player interface (beneath the title and author) that shows up whenever a map URL is configured.
+
+
+<!-- ####################################################################################################### -->
+
 ## 2.14.0 (2026-09-09)
 - Add global configuration for tabTitle and title
 - Automatically focus the first input field when modals are opened

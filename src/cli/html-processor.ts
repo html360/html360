@@ -14,7 +14,7 @@ import { getHtmlContext } from "./context";
 import pkg from "../../package.json" with { type: "json" };
 import { HtmlOptions } from "./types/html-options";
 import { FileError } from "./types/file-rrror";
-import { getAutoNavState, prepareImgPaths } from "./utils/processor";
+import { getAutoNavState, getMapState, prepareImgPaths } from "./utils/processor";
 import { buildHtmlItems } from "./html-item-builder";
 import { HtmlItem } from "./types/process-item";
 
@@ -100,6 +100,8 @@ async function writeImage(writeStream: fs.WriteStream, item: HtmlItem) {
 }
 
 async function writeState(writeStream: fs.WriteStream, item: HtmlItem) {
+  const map = await getMapState(item.ctx.config, item.imgPath);
+
   const state: State = {
     ...defaultState,
     imgName: item.imgName,
@@ -110,6 +112,7 @@ async function writeState(writeStream: fs.WriteStream, item: HtmlItem) {
       item.relativeUrls,
       item.index
     ),
+    map: map,
     isMultires: false,
     tabTitle: item.tabTitle,
     title: item.ctx.config.title || (item.ctx.config.useImageNameAsTitle ? item.imgName : ""),

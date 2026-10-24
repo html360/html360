@@ -1,4 +1,4 @@
-import { PannellumHotSpot } from "../../core/pannellum/pannellum";
+import { PannellumHotSpot } from "../../core/pannellum";
 import { defaultState, State } from "../../core/state";
 import { getElementById } from "../utils/document";
 import { createEventEmitter } from "../utils/event-emitter";
@@ -22,6 +22,10 @@ type StoreEvents = {
   setTabTitle: (value: string) => void;
   setAuthor: (value: string) => void
   setAuthorUrl: (value: string) => void
+  setMapLat: (value: number | null) => void
+  setMapLng: (value: number | null) => void
+  setMapTemplate: (value: string) => void
+  setMapUrl: (value: string) => void
   setIsLoaded: (value: boolean) => void
 };
 
@@ -71,6 +75,26 @@ function create() {
   const setAuthor = (value: string) => {
     state.author = value.trim();
     event.emit("setAuthor", state.author);
+  };
+
+  const setMapLat = (value: number | null) => {
+    state.map.lat = value;
+    event.emit("setMapLat", value);
+  };
+
+  const setMapLng = (value: number | null) => {
+    state.map.lng = value;
+    event.emit("setMapLng", value);
+  };
+
+  const setMapTemplate = (value: string) => {
+    state.map.template = value;
+    event.emit("setMapTemplate", value);
+  };
+
+  const setMapUrl = (value: string) => {
+    state.map.url = value;
+    event.emit("setMapUrl", value);
   };
 
   const setAuthorUrl = (value: string) => {
@@ -131,6 +155,10 @@ function create() {
     setAuthor,
     setAuthorUrl,
     setTabTitle,
+    setMapLat,
+    setMapLng,
+    setMapTemplate,
+    setMapUrl,
     addHotspot,
     removeHotspot,
     getOrientationUrlParams,

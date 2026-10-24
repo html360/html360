@@ -27,7 +27,7 @@ function create(store: Store, uiLayer: HTMLDivElement) {
       </div>
       <div class="field-box">
         <label class="label" for="pano-meta-author-url">Author URL</label>
-        <input type="text" class="input" id="pano-meta-author-url" placeholder="Enter author url...">
+        <input type="text" class="input" id="pano-meta-author-url" placeholder="Enter author URL">
       </div>
     `,
     footer: `

@@ -1,4 +1,5 @@
 import { Store } from "../store/store";
+import { svgMap } from "../svg/svg";
 import { UILayer } from "../ui-layer/ui-layer";
 
 export type PanoInfo = ReturnType<typeof create>;
@@ -19,6 +20,11 @@ function create(store: Store, uiLayer: UILayer) {
   authorElm.classList.add("pano-info-author");
   infoElm.appendChild(authorElm);
 
+  const mapLink = document.createElement("a");
+  mapLink.target = "_blank";
+  mapLink.innerHTML = svgMap;
+  infoElm.appendChild(mapLink);
+
   uiLayer.append(infoElm);
 
   const update = () => {
@@ -34,13 +40,17 @@ function create(store: Store, uiLayer: UILayer) {
     }
     authorElm.innerHTML = author;
 
-    const isVisible = !!store.state.title || !!store.state.author;
+    mapLink.href = store.state.map.url;
+    mapLink.classList.toggle("display-none", !store.state.map.url);
+
+    const isVisible = !!store.state.title || !!store.state.author || !!store.state.map.url;
     infoElm.classList.toggle("hidden", !isVisible);
   };
 
   store.on("setTitle", update);
   store.on("setAuthor", update);
   store.on("setAuthorUrl", update);
+  store.on("setMapUrl", update);
 
   update();
 }

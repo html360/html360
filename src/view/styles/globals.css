@@ -31,6 +31,10 @@ button, input, select, textarea {
   visibility: hidden;
 }
 
+.display-none {
+  display: none;
+}
+
 .field-box {
   display: flex;
   flex-direction: column;

@@ -1,5 +1,3 @@
-import "@pannellum-proxy";
-
 export type Pannellum = {
   viewer: (
     container: string | HTMLElement,
@@ -81,7 +79,3 @@ export type PannellumHotSpotType = "scene" | "info";
 export type ClickHandlerArgs = {
   openInNewTab: boolean;
 }
-
-const pannellum = (window as any).pannellum as Pannellum;
-
-export default pannellum;

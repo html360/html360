@@ -1,7 +1,7 @@
 import {
   PannellumHotSpot,
   PannellumHotSpotType,
-} from "../../core/pannellum/pannellum";
+} from "../../core/pannellum";
 import { CanBeNull, CanBeUndefined } from "../../core/types";
 import { isOrientationMessage } from "../orientation-messager/orientation-messager";
 import { Store } from "../store/store";

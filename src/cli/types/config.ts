@@ -5,6 +5,8 @@ export type Config = {
   authorUrl: string;
   useImageNameAsTitle: boolean;
   useAutoNav: boolean;
+  addGps: boolean;
+  mapUrlTemplate: string;
 };
 
 export const defaultConfig: Config = {
@@ -14,4 +16,6 @@ export const defaultConfig: Config = {
   authorUrl: "",
   useImageNameAsTitle: false,
   useAutoNav: false,
+  addGps: false,
+  mapUrlTemplate: "",
 };
