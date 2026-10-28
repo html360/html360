@@ -2,7 +2,7 @@
   <img src="src/view/assets/html360.svg" width="128" alt="html360 logo">
 </p>
 
-**English** | [Русский](https://github.com/html360/html360/blob/main/README.ru.md) 
+**English** | [Русский](./README.ru.md) 
 
 A simple CLI tool to pack 360° equirectangular panoramas into a single, standalone HTML file. 
 Perfect for sharing with friends via messengers or viewing offline.
