@@ -2,7 +2,7 @@
   <img src="src/view/assets/html360.svg" width="128" alt="html360 logo">
 </p>
 
-[English](https://github.com/html360/html360/blob/main/README.md) | **Русский**
+[English](./README.md) | **Русский**
 
 Это простой CLI-инструмент для упаковки 360° эквидистантных (equirectangular) панорам в один самостоятельный HTML-файл. 
 Идеально подходит для отправки друзьям через мессенджеры или для офлайн-просмотра.
