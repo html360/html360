@@ -80,34 +80,3 @@ h360
 3. Программа сама соберет `.html` файлы для всех фото в папке и автоматически откроет браузер для просмотра или сборки 3D-тура.
 
 
-
-
-
-
-
-
-## TEMP
-### Функция для запуска html360 через терменала Termux в выбраной папке 
-```bash
-html360() {
-  local bin="$PREFIX/bin/html360"
-  if [ $# -eq 0 ]; then
-    local selected
-    selected=$(find . -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) -printf "%f\n" | fzf -m --height 100% --reverse --prompt="Выберите фото: ")
-    
-    if [ -n "$selected" ]; then
-      local files=()
-      while IFS= read -r line; do
-        files+=("$line")
-      done <<< "$selected"
-      "$bin" "${files[@]}"
-      
-      echo "Запускаю сервер статики... (Нажмите CTRL+C для остановки)"
-      npx http-server -p 8080 -o
-    fi
-  else
-    "$bin" "$@"
-  fi
-}
-
-```
