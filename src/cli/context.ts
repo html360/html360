@@ -19,7 +19,7 @@ export async function getHtmlContext(
   const config = readConfig();
   const htmlChunks = await getHtmlChunks();
   const cpuCount = os.cpus().length;
-  const threadCount = Math.max(1, cpuCount - 1);
+  const threadCount = Math.max(1, Math.min(cpuCount - 1, imgPaths.length));
 
   return { config, imgPaths, options, htmlChunks, threadCount };
 }
@@ -30,9 +30,9 @@ export function getMultiresContext(
 ): MultiresContext {
   const config = readConfig();
   const templateHtml = fs.readFileSync(
-      path.join(__dirname, TEMPLATE_HTML),
-      "utf8",
-    );
+    path.join(__dirname, TEMPLATE_HTML),
+    "utf8",
+  );
 
   return { config, imgPaths, options, templateHtml };
 }

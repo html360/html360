@@ -1,4 +1,11 @@
-export const toMB = (bytes: number) => (bytes / 1024 / 1024).toFixed(2);
+import { resourceUsage } from "node:process";
+
+export const toMB = (bytes: number) => (bytes / 1024 / 1024);
+
+export const getMaxRamMB = () => {
+  const maxRAM = resourceUsage().maxRSS * 1024;
+  return toMB(maxRAM);
+}
 
 export const getRSS = () => process.memoryUsage().rss;
 

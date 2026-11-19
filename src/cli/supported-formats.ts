@@ -10,7 +10,7 @@ export const SUPPORTED_FORMATS: Record<string, string> = {
 export function verifyFileFormat(filePath: string) {
   const ext = getExt(filePath);
   if (!(ext in SUPPORTED_FORMATS)) {
-    throw new Error(`Unsupported file format: ${ext}`);
+    throw new Error(`Unsupported file format ${ext}`);
   }
 }
 
@@ -18,7 +18,7 @@ export function getMimeType(filePath: string) {
   const ext = getExt(filePath);
   const result = SUPPORTED_FORMATS[ext];
   if (!result) {
-    throw new Error(`Unsupported file format: ${ext}`);
+    throw new Error(`Unsupported file format ${ext}`);
   }
 
   return result;

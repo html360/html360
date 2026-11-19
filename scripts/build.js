@@ -40,7 +40,7 @@ async function build() {
     await fs.mkdir(distPath);
     await Promise.all([buildCli(), buildHtmlTemplate()]);
 
-    console.log("✅ Build complete.");
+    console.log("✅ Build completed");
   } catch (e) {
     console.error(e);
     process.exit(1);
