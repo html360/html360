@@ -43,6 +43,15 @@ h360() {
   fi
 
   html360 "$@" "${files[@]}"
+  local status=$?
+
+  # Возвращаем курсор и жестко переводим строку, чтобы не затирать вывод
+  tput cnorm 2>/dev/null
+  echo -e "\n"
+
+  if [ $status -ne 0 ]; then
+    return $status
+  fi
 
   pkill -f http-server 2>/dev/null
   echo "Запускаю локальный сервер... (Нажмите CTRL+C для остановки)"
