@@ -79,7 +79,12 @@ h360
 ```
 3. Программа сама соберет `.html` файлы для всех фото в папке и автоматически откроет браузер для просмотра или сборки 3D-тура.
 
-## Шпора
+# Шпора
 ```bash
 echo $COLUMNS
 ```
+
+```bash
+npm install --prefix $(npm root -g)/html360 --no-save --cpu=wasm32 sharp @img/sharp-wasm32
+```
+
