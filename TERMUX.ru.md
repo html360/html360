@@ -105,12 +105,14 @@ pkg install libvips clang make python pkg-config
 ```
 
 ```bash
-echo $COLUMNS
+cd $(npm root -g)/html360 && npm install --no-save sharp node-addon-api node-gyp && SHARP_FORCE_GLOBAL_LIBVIPS=1 npm explore sharp -- npm run build
+
 ```
 
 ```bash
-
+echo $COLUMNS
 ```
+
 
 ```bash
 
