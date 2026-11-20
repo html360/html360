@@ -110,15 +110,6 @@ npm install --prefix $(npm root -g)/html360 --no-save --cpu=wasm32 sharp @img/sh
 npm uninstall --prefix $(npm root -g)/html360 sharp @img/sharp-wasm32
 ```
 
-### Какой движок использует sharp?
-```bash
-cd $(npm root -g)/html360 && node -e "import('sharp').then(s => console.log({ versions: s.default.versions, concurrency: s.default.concurrency(), simd: s.default.simd() }))"
-```
-
-• Если в versions есть строка vips: '8.18...' (или другая цифра системного пакета), а simd: true — работает нативный C++ бинарник на полную мощность.
-
-• Если simd: false или есть упоминание wasm — запустился WebAssembly.
-
 ### Остальные рецепты 
 
 ```bash
