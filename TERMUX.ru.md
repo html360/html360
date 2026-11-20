@@ -93,10 +93,12 @@ h360
 # 🧪 Lab
 
 ### Сборка нативного sharp для html360 в Termux
+Работает в два раза быстрее чем wasm, но установка занимает очень много времени.
+1. Установите системный libvips и инструменты сборки
 ```bash
 pkg install libvips clang make python pkg-config
 ```
-
+2. Собираем нативный sharp для html360
 ```bash
 cd $(npm root -g)/html360 && npm install --no-save sharp node-addon-api node-gyp && SHARP_FORCE_GLOBAL_LIBVIPS=1 npm explore sharp -- npm run build
 ```
@@ -105,7 +107,7 @@ cd $(npm root -g)/html360 && npm install --no-save sharp node-addon-api node-gyp
 ```bash
 npm install --prefix $(npm root -g)/html360 --no-save --cpu=wasm32 sharp @img/sharp-wasm32
 ```
-
+Удалить (оставил вдруг пригодится)
 ```bash
 npm uninstall --prefix $(npm root -g)/html360 sharp @img/sharp-wasm32
 ```
