@@ -107,10 +107,6 @@ cd $(npm root -g)/html360 && npm install --no-save sharp node-addon-api node-gyp
 ```bash
 npm install --prefix $(npm root -g)/html360 --no-save --cpu=wasm32 sharp @img/sharp-wasm32
 ```
-Удалить (оставил вдруг пригодится)
-```bash
-npm uninstall --prefix $(npm root -g)/html360 sharp @img/sharp-wasm32
-```
 
 ### Остальные рецепты 
 
