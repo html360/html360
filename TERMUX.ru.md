@@ -92,6 +92,16 @@ h360
 
 # 🧪 Lab
 
+### Сборка нативного sharp для html360 в Termux
+```bash
+pkg install libvips clang make python pkg-config
+```
+
+```bash
+cd $(npm root -g)/html360 && npm install --no-save sharp node-addon-api node-gyp && SHARP_FORCE_GLOBAL_LIBVIPS=1 npm explore sharp -- npm run build
+```
+
+### Сборка wasm sharp для html360 в Termux
 ```bash
 npm install --prefix $(npm root -g)/html360 --no-save --cpu=wasm32 sharp @img/sharp-wasm32
 ```
@@ -100,14 +110,16 @@ npm install --prefix $(npm root -g)/html360 --no-save --cpu=wasm32 sharp @img/sh
 npm uninstall --prefix $(npm root -g)/html360 sharp @img/sharp-wasm32
 ```
 
+### Какой движок использует sharp?
 ```bash
-pkg install libvips clang make python pkg-config
+cd $(npm root -g)/html360 && node -e "import('sharp').then(s => console.log({ versions: s.default.versions, concurrency: s.default.concurrency(), simd: s.default.simd() }))"
 ```
 
-```bash
-cd $(npm root -g)/html360 && npm install --no-save sharp node-addon-api node-gyp && SHARP_FORCE_GLOBAL_LIBVIPS=1 npm explore sharp -- npm run build
+• Если в versions есть строка vips: '8.18...' (или другая цифра системного пакета), а simd: true — работает нативный C++ бинарник на полную мощность.
 
-```
+• Если simd: false или есть упоминание wasm — запустился WebAssembly.
+
+### Остальные рецепты 
 
 ```bash
 echo $COLUMNS
