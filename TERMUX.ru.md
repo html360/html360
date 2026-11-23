@@ -53,7 +53,7 @@ h360() {
   fi
 
   pkill -f http-server 2>/dev/null
-  http-server . -o
+  http-server . -o -c-1
 }
 EOF
 
