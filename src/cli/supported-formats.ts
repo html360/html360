@@ -1,29 +1,29 @@
 import path from "node:path";
 
-export const SUPPORTED_FORMATS: Record<string, string> = {
+const SUPPORTED_FORMATS: Record<string, string> = {
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
   ".png": "image/png",
   ".webp": "image/webp",
 };
 
-export function verifyFileFormat(filePath: string) {
+export function isSupportedFileFormat(filePath: string): boolean {
   const ext = getExt(filePath);
-  if (!(ext in SUPPORTED_FORMATS)) {
-    throw new Error(`Unsupported file format ${ext}`);
+  return Object.hasOwn(SUPPORTED_FORMATS, ext);
+}
+
+export function verifyFileFormat(filePath: string) {
+  if (!isSupportedFileFormat(filePath)) {
+    throw new Error(`Unsupported file format ${getExt(filePath)}`);
   }
 }
 
 export function getMimeType(filePath: string) {
+  verifyFileFormat(filePath);
   const ext = getExt(filePath);
-  const result = SUPPORTED_FORMATS[ext];
-  if (!result) {
-    throw new Error(`Unsupported file format ${ext}`);
-  }
-
-  return result;
+  return SUPPORTED_FORMATS[ext];
 }
 
-export function getExt(filePath: string) {
+function getExt(filePath: string) {
   return path.extname(filePath).toLowerCase()
 }

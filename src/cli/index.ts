@@ -15,7 +15,7 @@ try {
     .version(pkg.version, "-v");
 
   program
-    .argument("<image...>", "List of images to process")
+    .argument("<paths...>", "Paths to panorama images or directories to process")
     .option(
       "-r, --raw",
       "Disable 8K optimization and keep original image quality",
@@ -25,7 +25,7 @@ try {
   program
     .command("multires")
     .description("Generate multiresolution tiles for deep zoom")
-    .argument("<image...>", "List of images to process")
+    .argument("<paths...>", "Paths to panorama images or directories to process")
     .option(
       "-C, --cylindrical",
       "input projection is cylindrical (default is equirectangular)",

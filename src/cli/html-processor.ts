@@ -5,7 +5,7 @@ import { pipeline, finished } from "node:stream/promises";
 import pLimit from "p-limit";
 import { Base64Encode } from "base64-stream";
 import sharp from "sharp";
-import { startProgressBar } from "./tui/progress-bar";
+import { withProgressBar } from "./tui/progress-bar";
 import { formatTime, getMaxRamMB, silent } from "./utils/utils";
 import { getMimeType, verifyFileFormat } from "./supported-formats";
 import { writeAsync } from "./utils/stream";
@@ -14,36 +14,49 @@ import { getHtmlContext } from "./context";
 import pkg from "../../package.json" with { type: "json" };
 import { HtmlOptions } from "./types/html-options";
 import { FileError } from "./types/file-rrror";
-import { getAutoNavState, getMapState, prepareImgPaths } from "./utils/processor";
+import { assertHasFiles, getAutoNavState, getMapState } from "./utils/processor";
 import { buildHtmlItems } from "./html-item-builder";
 import { HtmlItem } from "./types/process-item";
-import { HtmlContext } from "./types/html-context";
 import { printBox } from "./tui/box";
+import { resolvePaths } from "./paths-resolver";
 
-export async function buildHtml(imgPaths: string[], options: HtmlOptions) {
-  imgPaths = prepareImgPaths(imgPaths);
-
-  const errors: FileError[] = [];
-  const ctx = await getHtmlContext(imgPaths, options);
-  const limit = pLimit(ctx.threadCount);
-  const items = buildHtmlItems(imgPaths, ctx);
-
+export async function buildHtml(rawPaths: string[], options: HtmlOptions) {
   const startTime = performance.now();
-  await startProgressBar(ctx, async (incProgressBar) => {
-    const tasks = items.map(x =>
+
+  const ctx = await withProgressBar(rawPaths.length, async (progressBar) => {
+    const imgPaths = await resolvePaths(rawPaths);
+    assertHasFiles(imgPaths);
+
+    progressBar.setTotal(imgPaths.length);
+    const ctx = await getHtmlContext(imgPaths, options);
+    const limit = pLimit(ctx.threadCount);
+    const items = buildHtmlItems(imgPaths, ctx);
+    const errors: FileError[] = [];
+
+    await Promise.all(items.map(x =>
       limit(async () => {
         try {
           await processItem(x);
         } catch (error) {
           errors.push({ fileName: x.imgFileName, error });
         } finally {
-          incProgressBar();
+          progressBar.increment();
         }
       }),
-    );
-    await Promise.all(tasks);
+    ));
+
+    if (errors.length > 0) {
+      throw new AggregateError(errors, `Build failed with ${errors.length} error(s)`);
+    }
+
+    return ctx;
   });
-  finalizeBuild(startTime, errors, ctx);
+
+  printBox(c.bold(c.green("Build completed")), [
+    ["Time", formatTime(performance.now() - startTime)],
+    ["Threads", String(ctx.threadCount)],
+    ["Max RAM", `${getMaxRamMB().toFixed(0)} MB`],
+  ], 26);
 }
 
 async function processItem(item: HtmlItem) {
@@ -122,23 +135,4 @@ async function writeState(writeStream: fs.WriteStream, item: HtmlItem) {
 
   const json = JSON.stringify(state);
   await writeAsync(writeStream, json);
-}
-
-function finalizeBuild(startTime: number, errors: FileError[], ctx: HtmlContext) {
-  const title = errors.length === 0 ? c.green("Build completed") : c.red("Build faild");
-  const time = formatTime(performance.now() - startTime);
-  const threads = String(ctx.threadCount);
-  const maxRamMB = `${getMaxRamMB().toFixed(0)} MB`;
-  const errorsCount = c.red(String(errors.length));
-
-  printBox(c.bold(title), [
-    ["Time", time],
-    ["Threads", threads],
-    ["Max RAM", maxRamMB],
-    errors.length > 0 ? ["Errors", errorsCount] : null,
-  ], 26);
-
-  if (errors.length > 0) {
-    throw new AggregateError(errors, `Build failed with ${errors.length} error(s)`);
-  }
 }

@@ -4,20 +4,6 @@ import { Config } from "../types/config";
 import { getGps } from "./gps";
 import { buildMapUrl } from "../../core/map-url";
 
-export function prepareImgPaths(imgPaths: string[]): string[] {
-  let result = imgPaths.map((x) => path.resolve(x));
-
-  if (process.env.IS_HTML360_BAT_LAUNCH === 'true') {
-    result.sort((a, b) => {
-      if (a < b) return -1;
-      if (a > b) return 1;
-      return 0;
-    });
-  }
-
-  return result;
-}
-
 export const getRelativeUrl = (fromDirPath: string, toFilePath: string) => {
   // Получаем относительный путь (строится только от папки)
   let rel = path.relative(fromDirPath, toFilePath);
@@ -73,4 +59,10 @@ export const getMapState = async (config: Config, filePath: string): Promise<Map
     template,
     url
   };
+}
+
+export const assertHasFiles = (files: string[]): void => {
+  if (files.length === 0) {
+    throw new Error('No supported images found.');
+  }
 }

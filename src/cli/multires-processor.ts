@@ -7,12 +7,15 @@ import { getMultiresContext } from "./context";
 import { isNil } from "./utils/utils";
 import { MultiresOptions } from "./types/multires-options";
 import pkg from "../../package.json" with { type: "json" };
-import { getAutoNavState, getMapState, prepareImgPaths } from "./utils/processor";
+import { assertHasFiles, getAutoNavState, getMapState } from "./utils/processor";
 import { buildMultiresItems } from "./multires-item-builder";
 import { MultiresItem } from "./types/process-item";
+import { resolvePaths } from "./paths-resolver";
 
-export async function buildMultires(imgPaths: string[], options: MultiresOptions) {
-  imgPaths = prepareImgPaths(imgPaths);
+export async function buildMultires(rawPaths: string[], options: MultiresOptions) {
+  const imgPaths = await resolvePaths(rawPaths);
+  assertHasFiles(imgPaths);
+
   const ctx = getMultiresContext(imgPaths, options);
   const items = buildMultiresItems(imgPaths, ctx);
 
