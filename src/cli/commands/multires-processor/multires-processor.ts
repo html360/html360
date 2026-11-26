@@ -1,16 +1,16 @@
 import { html360Gen } from "html360-gen";
 import fs from "node:fs";
 import { spawnSync } from "node:child_process";
-import { logger } from "./logger";
-import { defaultState, State } from "../core/state";
-import { getMultiresContext } from "./context";
-import { isNil } from "./utils/utils";
-import { MultiresOptions } from "./types/multires-options";
-import pkg from "../../package.json" with { type: "json" };
-import { getAutoNavState, getMapState } from "./utils/processor";
+import { logger } from "../../utils/logger";
+import { defaultState, State } from "../../../core/state";
+import { getMultiresContext } from "./multires-context";
+import { isNil } from "../../utils/utils";
+import { MultiresOptions } from "./multires-options";
+import pkg from "../../../../package.json" with { type: "json" };
+import { getAutoNavState, getMapState } from "../../utils/processor";
 import { buildMultiresItems } from "./multires-item-builder";
-import { MultiresItem } from "./types/process-item";
-import { resolveAndVerifyPaths } from "./paths-resolver";
+import { MultiresItem } from "./multires-item";
+import { resolveAndVerifyPaths } from "../../utils/paths-resolver";
 
 export async function buildMultires(rawPaths: string[], options: MultiresOptions) {
   const imgPaths = await resolveAndVerifyPaths(rawPaths);

@@ -1,7 +1,7 @@
 import path from "node:path";
-import { MultiresContext } from "./types/multires-context";
-import { MultiresItem } from "./types/process-item";
-import { getImgName, getRelativeUrl } from "./utils/processor";
+import { MultiresContext } from "./multires-context";
+import { MultiresItem } from "./multires-item";
+import { getImgName, getRelativeUrl } from "../../utils/processor";
 
 export function buildMultiresItems(imgPaths: string[], ctx: MultiresContext): MultiresItem[] {
   return imgPaths.map((imgPath, index) => {

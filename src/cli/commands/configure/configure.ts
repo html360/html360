@@ -2,9 +2,9 @@ import fs from "node:fs";
 import path from "node:path";
 import os from "os";
 import * as p from "@clack/prompts";
-import { Config, defaultConfig } from "./types/config";
-import { CanceledError } from "./canceled-error";
-import { mapUrlTemplate } from "../core/map-url";
+import { Config, defaultConfig } from "../../types/config";
+import { CanceledError } from "../../errors/canceled-error";
+import { mapUrlTemplate } from "../../../core/map-url";
 
 const CONFIG_PATH = path.join(os.homedir(), ".html360.json");
 

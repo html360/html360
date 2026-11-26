@@ -1,14 +1,21 @@
 import path from "node:path";
 import fs from "node:fs/promises";
 import { fileURLToPath } from "node:url";
-import { HtmlChunks } from "./types/html-chunks";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export const TEMPLATE_HTML = "template.html";
-const PANORAMA_DATA = "{{PANORAMA_DATA}}";
 const STATE = "{{STATE}}";
+const PANORAMA_DATA = "{{PANORAMA_DATA}}";
+
+export const TEMPLATE_HTML = "template.html";
+
+export type HtmlChunks = {
+  source: string;
+  first: string;
+  beforeState: string;
+  last: string;
+};
 
 export async function getHtmlChunks(): Promise<HtmlChunks> {
   const source = await fs.readFile(

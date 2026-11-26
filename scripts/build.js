@@ -52,7 +52,7 @@ async function buildCli() {
     createIco(),
     buildCliJs(),
     fs.copyFile(
-      path.join(srcPath, "cli/menu.bat"),
+      path.join(srcPath, "cli/commands/menu/menu.bat"),
       path.join(distPath, "menu.bat"),
     ),
   ]);

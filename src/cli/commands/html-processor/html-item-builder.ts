@@ -1,8 +1,8 @@
 import path from "node:path";
-import { HtmlOptions } from "./types/html-options";
-import { HtmlContext } from "./types/html-context";
-import { getImgName, getRelativeUrl } from "./utils/processor";
-import { HtmlItem } from "./types/process-item";
+import { HtmlOptions } from "./html-options";
+import { HtmlContext } from "./html-context";
+import { getImgName, getRelativeUrl } from "../../utils/processor";
+import { HtmlItem } from "./html-item";
 
 export function buildHtmlItems(imgPaths: string[], ctx: HtmlContext): HtmlItem[] {
   return imgPaths.map((imgPath, index) => {

@@ -5,20 +5,24 @@ import { pipeline, finished } from "node:stream/promises";
 import pLimit from "p-limit";
 import { Base64Encode } from "base64-stream";
 import sharp from "sharp";
-import { withProgressBar } from "./tui/progress-bar";
-import { formatTime, getMaxRamMB, silent } from "./utils/utils";
-import { getMimeType, verifyFileFormat } from "./supported-formats";
-import { writeAsync } from "./utils/stream";
-import { defaultState, State } from "../core/state";
-import { getHtmlContext } from "./context";
-import pkg from "../../package.json" with { type: "json" };
-import { HtmlOptions } from "./types/html-options";
-import { FileError } from "./types/file-rrror";
-import { getAutoNavState, getMapState } from "./utils/processor";
+import { withProgressBar } from "../../tui/progress-bar";
+import { formatTime, getMaxRamMB, silent } from "../../utils/utils";
+import { getMimeType, verifyFileFormat } from "../../utils/supported-formats";
+import { writeAsync } from "../../utils/stream";
+import { defaultState, State } from "../../../core/state";
+import { getHtmlContext } from "./html-context";
+import pkg from "../../../../package.json" with { type: "json" };
+import { HtmlOptions } from "./html-options";
+import { getAutoNavState, getMapState } from "../../utils/processor";
 import { buildHtmlItems } from "./html-item-builder";
-import { HtmlItem } from "./types/process-item";
-import { printBox } from "./tui/box";
-import { resolveAndVerifyPaths } from "./paths-resolver";
+import { HtmlItem } from "./html-item";
+import { printBox } from "../../tui/box";
+import { resolveAndVerifyPaths } from "../../utils/paths-resolver";
+
+type FileError = {
+  fileName: string;
+  error: any;
+};
 
 export async function buildHtml(rawPaths: string[], options: HtmlOptions) {
   const startTime = performance.now();
@@ -29,7 +33,7 @@ export async function buildHtml(rawPaths: string[], options: HtmlOptions) {
     const limit = pLimit(ctx.threadCount);
     const items = buildHtmlItems(imgPaths, ctx);
     const errors: FileError[] = [];
-    
+
     progressBar.setTotal(imgPaths.length);
     await Promise.all(items.map(x =>
       limit(async () => {

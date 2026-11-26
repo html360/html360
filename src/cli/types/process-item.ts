@@ -1,7 +1,4 @@
-import { HtmlContext } from "./html-context";
-import { MultiresContext } from "./multires-context";
-
-type Item = {
+export type ProcessItem = {
   index: number;
   imgPath: string;
   imgName: string;
@@ -11,13 +8,5 @@ type Item = {
   htmlDir: string;
   tabTitle: string;
   relativeUrls: string[];
-};
-
-export type HtmlItem = Item & {
-  ctx: HtmlContext;
-};
-
-export type MultiresItem = Item & {
-  ctx: MultiresContext;
 };
 

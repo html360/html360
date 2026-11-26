@@ -48,7 +48,7 @@ export async function resolveAndVerifyPaths(rawPaths: string[],
   if (reuslt.length === 0) {
     throw new Error('No supported images found.');
   }
-  
+
   return reuslt;
 }
 

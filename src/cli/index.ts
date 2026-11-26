@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 import { program } from "commander";
-import { buildHtml } from "./html-processor";
-import { buildMultires } from "./multires-processor";
-import { installMenu, uninstallMenu } from "./menu";
-import { logger } from "./logger";
+import { buildHtml } from "./commands/html-processor/html-processor";
+import { buildMultires } from "./commands/multires-processor/multires-processor";
+import { installMenu, uninstallMenu } from "./commands/menu/menu";
+import { logger } from "./utils/logger";
 import pkg from "../../package.json" with { type: "json" };
-import { configure } from "./configure";
-import { CanceledError } from "./canceled-error";
+import { configure } from "./commands/configure/configure";
+import { CanceledError } from "./errors/canceled-error";
 
 try {
   program

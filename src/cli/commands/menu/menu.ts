@@ -2,8 +2,8 @@ import path from "node:path";
 import fs from "node:fs/promises";
 import ws from "windows-shortcuts";
 import { fileURLToPath } from "url";
-import { logger } from "./logger";
-import { silent } from "./utils/utils";
+import { logger } from "../../utils/logger";
+import { silent } from "../../utils/utils";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
