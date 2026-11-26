@@ -42,7 +42,7 @@
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease;
-  padding: 4px 8px;
+  padding: 4px 4px;
 }
 
 @media (hover: hover) {

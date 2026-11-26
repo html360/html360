@@ -27,8 +27,9 @@ function create(store: Store, uiLayer: HTMLDivElement, viwer: ViewerAdapter) {
       <div class="menu-footer">
         <a href="https://www.npmjs.com/package/html360" target="_blank" class="menu-footer-link">html360</a>•
         <a href="https://pannellum.org/" target="_blank" class="menu-footer-link">pannellum</a>•
+        <a href="https://sharp.pixelplumbing.com/" target="_blank" class="menu-footer-link">sharp</a>•
         <a href="https://hugin.sourceforge.io/" target="_blank" class="menu-footer-link">hugin</a>•
-        <a href="https://sharp.pixelplumbing.com/" target="_blank" class="menu-footer-link">sharp</a>
+        <a href="https://termux.dev/" target="_blank" class="menu-footer-link">termux</a>
       </div>
     `,
   );

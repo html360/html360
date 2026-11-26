@@ -20,7 +20,7 @@
   --lock-overlay-blur: blur(4px);
 
   /*********************************************/
-  --panel-width: 300px;  
+  --panel-width: 320px;  
   --panel-padding: 16px;
   --panel-border: 1px solid var(--color-gray);
   --panel-radius: 28px;
