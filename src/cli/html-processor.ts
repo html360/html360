@@ -14,25 +14,23 @@ import { getHtmlContext } from "./context";
 import pkg from "../../package.json" with { type: "json" };
 import { HtmlOptions } from "./types/html-options";
 import { FileError } from "./types/file-rrror";
-import { assertHasFiles, getAutoNavState, getMapState } from "./utils/processor";
+import { getAutoNavState, getMapState } from "./utils/processor";
 import { buildHtmlItems } from "./html-item-builder";
 import { HtmlItem } from "./types/process-item";
 import { printBox } from "./tui/box";
-import { resolvePaths } from "./paths-resolver";
+import { resolveAndVerifyPaths } from "./paths-resolver";
 
 export async function buildHtml(rawPaths: string[], options: HtmlOptions) {
   const startTime = performance.now();
 
   const ctx = await withProgressBar(rawPaths.length, async (progressBar) => {
-    const imgPaths = await resolvePaths(rawPaths);
-    assertHasFiles(imgPaths);
-
-    progressBar.setTotal(imgPaths.length);
+    const imgPaths = await resolveAndVerifyPaths(rawPaths);
     const ctx = await getHtmlContext(imgPaths, options);
     const limit = pLimit(ctx.threadCount);
     const items = buildHtmlItems(imgPaths, ctx);
     const errors: FileError[] = [];
-
+    
+    progressBar.setTotal(imgPaths.length);
     await Promise.all(items.map(x =>
       limit(async () => {
         try {

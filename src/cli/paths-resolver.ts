@@ -40,6 +40,18 @@ export async function resolvePaths(
   return Array.from(resultSet.keys());
 }
 
+export async function resolveAndVerifyPaths(rawPaths: string[],
+  options: ResolveOptions = {}
+): Promise<string[]> {
+  const reuslt = await resolvePaths(rawPaths, options);
+
+  if (reuslt.length === 0) {
+    throw new Error('No supported images found.');
+  }
+  
+  return reuslt;
+}
+
 async function collectFromDirectory(
   dirPath: string,
   resultSet: Set<string>,

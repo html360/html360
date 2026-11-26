@@ -60,9 +60,3 @@ export const getMapState = async (config: Config, filePath: string): Promise<Map
     url
   };
 }
-
-export const assertHasFiles = (files: string[]): void => {
-  if (files.length === 0) {
-    throw new Error('No supported images found.');
-  }
-}
