@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="src/view/assets/html360.svg" width="128" alt="html360 logo">
+  <img src="assets/html360.png" width="128" alt="html360 logo">
 </p>
 
 **English** | [Русский](./README.ru.md) 
