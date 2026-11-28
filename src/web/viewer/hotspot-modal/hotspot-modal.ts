@@ -1,8 +1,8 @@
 import {
   PannellumHotSpot,
   PannellumHotSpotType,
-} from "../../core/pannellum";
-import { CanBeNull, CanBeUndefined } from "../../core/types";
+} from "../../../core/pannellum";
+import { CanBeNull, CanBeUndefined } from "../../../core/types";
 import { isOrientationMessage } from "../orientation-messager/orientation-messager";
 import { Store } from "../store/store";
 import { getElementById } from "../utils/document";

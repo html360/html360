@@ -2,7 +2,7 @@ import {
   ClickHandlerArgs,
   PannellumConfig,
   PannellumHotSpot,
-} from "../../core/pannellum";
+} from "../../../core/pannellum";
 import pannellum from "../pannellum/pannellum";
 import { Store } from "../store/store";
 import { getElementById } from "../utils/document";

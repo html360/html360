@@ -1,4 +1,4 @@
-import { PannellumHotSpotType } from "../../core/pannellum";
+import { PannellumHotSpotType } from "../../../core/pannellum";
 import { HotspotModal } from "../hotspot-modal/hotspot-modal";
 import { MapUrlModal } from "../map-url-modal/map-url-modal";
 import { PanoInfoModal } from "../pano-info-modal/pano-info-modal";

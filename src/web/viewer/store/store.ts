@@ -1,5 +1,5 @@
-import { PannellumHotSpot } from "../../core/pannellum";
-import { defaultState, State } from "../../core/state";
+import { PannellumHotSpot } from "../../../core/pannellum";
+import { defaultState, State } from "../../../core/state";
 import { getElementById } from "../utils/document";
 import { createEventEmitter } from "../utils/event-emitter";
 import { parseYaw, parsePitch, parseHfov } from "../url/url";

@@ -1,4 +1,4 @@
-import { Nullable } from "../../core/types";
+import { Nullable } from "../../../core/types";
 
 export const navigateTo = (url: Nullable<string>, isInNewTab: boolean = false) => {
   if (!url) return;

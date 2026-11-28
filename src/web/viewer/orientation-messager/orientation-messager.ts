@@ -1,4 +1,4 @@
-import { State } from "../../core/state";
+import { State } from "../../../core/state";
 import { Store } from "../store/store";
 
 export type OrientationMessage = Pick<State, "yaw" | "pitch" | "hfov"> & {

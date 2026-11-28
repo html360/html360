@@ -1,4 +1,4 @@
-import { Nullable } from "../../core/types";
+import { Nullable } from "../../../core/types";
 
 export const QUERY_PARAMS = {
   YAW: "yaw",

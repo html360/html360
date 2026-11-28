@@ -1,7 +1,7 @@
 import { Store } from "../store/store";
 import { getElementById } from "../utils/document";
 import { Modal } from "../modal/modal";
-import { buildMapUrl, mapUrlTemplate } from "../../core/map-url";
+import { buildMapUrl, mapUrlTemplate } from "../../../core/map-url";
 
 export type MapUrlModal = ReturnType<typeof create>;
 

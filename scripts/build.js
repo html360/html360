@@ -8,10 +8,14 @@ import sharp from "sharp";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const srcPath = path.join(__dirname, "../src");
+
 const distPath = path.join(__dirname, "../dist");
-const svgPath = path.join(__dirname, "../src/view/assets/html360.svg");
+const srcPath = path.join(__dirname, "../src");
 const icoPath = path.join(distPath, "html360.ico");
+const cliPath = path.join(srcPath, "cli");
+const viewerPath = path.join(srcPath, "web/viewer");
+const svgPath = path.join(viewerPath, "assets/html360.svg");
+
 const isProd = process.argv.includes("prod");
 
 /** @type {import('esbuild').BuildOptions} */
@@ -52,7 +56,7 @@ async function buildCli() {
     createIco(),
     buildCliJs(),
     fs.copyFile(
-      path.join(srcPath, "cli/commands/menu/menu.bat"),
+      path.join(cliPath, "commands/menu/menu.bat"),
       path.join(distPath, "menu.bat"),
     ),
   ]);
@@ -62,7 +66,7 @@ async function buildCliJs() {
   /** @type {import('esbuild').BuildOptions} */
   const options = {
     ...commonOptions,
-    entryPoints: [path.join(srcPath, "cli/index.ts")],
+    entryPoints: [path.join(cliPath, "index.ts")],
     platform: "node",
     target: "node20",
     format: "esm",
@@ -78,7 +82,7 @@ async function buildHtmlTemplate() {
     getFavicon(),
     buildTemplateJs(),
     buildTemplateCss(),
-    fs.readFile(path.join(srcPath, "view/index.html"), "utf8"),
+    fs.readFile(path.join(viewerPath, "index.html"), "utf8"),
   ]);
 
   const compiledTemplate = rawTemplate
@@ -96,14 +100,14 @@ async function buildTemplateJs() {
     // КРИТИЧНО ДЛЯ ОТЛАДКИ: sourceURL создает виртуальный файл в браузере.
     // Без него браузер считает строки от начала HTML, из-за чего отладка "мажет".    
     banner: isProd ? {} : { js: "//# sourceURL=html360.js" },
-    entryPoints: [path.join(srcPath, "view/index.ts")],
+    entryPoints: [path.join(viewerPath, "index.ts")],
     write: false,
     platform: "browser",
     target: ["chrome58", "firefox57", "safari11", "edge16"],
     alias: {
       "@pannellum-proxy": isProd
-        ? path.join(srcPath, "view/pannellum/pannellum-prod.js")
-        : path.join(srcPath, "view/pannellum/pannellum-dev.js"),
+        ? path.join(viewerPath, "pannellum/pannellum-prod.js")
+        : path.join(viewerPath, "pannellum/pannellum-dev.js"),
     },
   };
   const jsResult = await esbuild.build(options);
@@ -116,7 +120,7 @@ async function buildTemplateCss() {
   /** @type {import('esbuild').BuildOptions} */
   const options = {
     ...commonOptions,
-    entryPoints: [path.join(srcPath, "view/index.css")],
+    entryPoints: [path.join(viewerPath, "index.css")],
     write: false,
     platform: "browser",
     target: ["chrome58", "firefox57", "safari11", "edge16"],
